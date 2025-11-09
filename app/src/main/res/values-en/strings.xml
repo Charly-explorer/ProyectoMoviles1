@@ -1,4 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">ProjectMovil1</string>
+    <string name="menu_principal">Menu</string>
+    <string name="menu_productos">Products</string>
+    <string name="menu_inventario">Inventory</string>
+    <string name="menu_movimientos">Moves</string>
 </resources>

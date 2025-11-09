@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">ProyectoMoviles1</string>
+    <string name="menu_principal">Menu</string>
+    <string name="menu_productos">Productos</string>
+    <string name="menu_inventario">Inventario</string>
+    <string name="menu_movimientos">Movimientos</string>
 </resources>
