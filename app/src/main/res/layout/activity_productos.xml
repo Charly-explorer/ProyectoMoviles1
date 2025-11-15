@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="16dp"
+    android:background="#F5F5F5"
+    android:id="@+id/main"
+    tools:context=".MainActivity">
+
+    <!-- Título -->
+    <TextView
+        android:id="@+id/txtTitulo"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Gestión de Productos"
+        android:textSize="22sp"
+        android:textStyle="bold"
+        android:gravity="center"
+        android:textColor="#222222"
+        android:layout_marginBottom="16dp" />
+
+    <!-- Campo de texto para nombre -->
+    <EditText
+        android:id="@+id/txtnombre"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Nombre del Producto"
+        android:inputType="textPersonName"
+        android:background="@android:drawable/editbox_background"
+        android:padding="10dp"
+        android:layout_marginBottom="12dp" />
+
+    <!-- Botones principales -->
+
+    <!-- Separador -->
+
+
+    <Button
+        android:id="@+id/btnConsultar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="10dp"
+        android:onClick="Consultar"
+        android:text="Consultar" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#CCCCCC"
+        android:layout_marginTop="12dp"
+        android:layout_marginBottom="8dp" />
+
+    <!-- Lista de estudiantes -->
+
+    <ListView
+        android:id="@+id/lista"
+        android:layout_width="match_parent"
+        android:layout_height="1211dp"
+        android:layout_weight="1"
+        android:background="#FFFFFF"
+        android:divider="#888"
+        android:dividerHeight="1dp"
+        android:padding="4dp" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/btnEditar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="10dp"
+            android:onClick="Editar"
+            android:text="Editar" />
+
+        <Button
+            android:id="@+id/btnAgregar"
+            android:layout_width="123dp"
+            android:layout_height="wrap_content"
+            android:onClick="Agregar"
+            android:text="Agregar" />
+
+    </LinearLayout>
+
+</LinearLayout>
