@@ -55,7 +55,7 @@
     <!-- Lista de estudiantes -->
 
     <ListView
-        android:id="@+id/lista"
+        android:id="@+id/listViewProductos"
         android:layout_width="match_parent"
         android:layout_height="1211dp"
         android:layout_weight="1"

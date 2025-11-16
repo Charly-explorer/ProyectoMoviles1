@@ -2,10 +2,14 @@ package com.example.proyectomoviles1;
 
 
 import android.content.Context;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
 import androidx.annotation.Nullable;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class AdminDB extends SQLiteOpenHelper {
 
@@ -96,6 +100,29 @@ public class AdminDB extends SQLiteOpenHelper {
 
         onCreate(db);
     }
+
+    public ArrayList<Producto> obtenerProductos() {
+        ArrayList<Producto> lista = new ArrayList<>();
+        SQLiteDatabase db = this.getReadableDatabase();
+
+        Cursor cursor = db.rawQuery(
+                "SELECT P.codigo, P.nombre, P.descripcion, C.nombre FROM Productos P INNER JOIN Categorias C ON C.id = P.idCategoria",null);
+
+        if (cursor.moveToFirst()) {
+            do {
+                lista.add(new Producto(
+                        cursor.getInt(0),
+                        cursor.getString(1),
+                        cursor.getString(2),
+                        cursor.getInt(3)
+                ));
+            } while (cursor.moveToNext());
+        }
+
+        cursor.close();
+        return lista;
+    }
+
 }
 
 
