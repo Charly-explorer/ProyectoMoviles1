@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="16dp"
+    android:background="#F5F5F5"
+    android:id="@+id/main"
+    tools:context=".MainActivity">
+
+    <!-- Título -->
+    <TextView
+        android:id="@+id/txtTituloInv"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="16dp"
+        android:gravity="center"
+        android:text="@string/titulo_inventario"
+        android:textColor="#222222"
+        android:textSize="22sp"
+        android:textStyle="bold" />
+
+    <EditText
+        android:id="@+id/txtcodInv"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="12dp"
+        android:background="@android:drawable/editbox_background"
+        android:hint="@string/barra_busqueda_Inv"
+        android:inputType="textPersonName"
+        android:padding="10dp" />
+
+
+    <Button
+        android:id="@+id/btnConsultarInv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="10dp"
+        android:text="Consultar" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#CCCCCC"
+        android:layout_marginTop="12dp"
+        android:layout_marginBottom="8dp" />
+
+    <!-- Lista de estudiantes -->
+
+    <ListView
+        android:id="@+id/listViewInv"
+        android:layout_width="match_parent"
+        android:layout_height="1211dp"
+        android:layout_weight="1"
+        android:background="#FFFFFF"
+        android:divider="#888"
+        android:dividerHeight="1dp"
+        android:padding="4dp" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/btnEditarInv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="10dp"
+            android:text="@string/btn_editar" />
+
+        <Button
+            android:id="@+id/btnAgregarInv"
+            android:layout_width="123dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="10dp"
+            android:text="@string/btn_agregar" />
+
+        <Button
+            android:id="@+id/btnEliminarInv"
+            android:layout_width="123dp"
+            android:layout_height="wrap_content"
+            android:text="@string/btn_eliminar" />
+
+    </LinearLayout>
+
+</LinearLayout>

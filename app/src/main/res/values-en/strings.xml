@@ -5,4 +5,11 @@
     <string name="menu_productos">Products</string>
     <string name="menu_inventario">Inventory</string>
     <string name="menu_movimientos">Moves</string>
+    <string name="titulo_inventario">Inventory Management</string>
+    <string name="barra_busqueda_Inv">Search by Product Name</string>
+    <string name="btn_agregar">Add</string>
+    <string name="btn_editar">Edit</string>
+    <string name="btn_eliminar">Delete</string>
+    <string name="label_codigo">Code: </string>
+    <string name="label_existencia">Stock: </string>
 </resources>
