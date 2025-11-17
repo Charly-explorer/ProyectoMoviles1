@@ -27,4 +27,9 @@ public class menu_principal extends AppCompatActivity {
         Intent intent= new Intent(this,Productos.class);
         startActivity(intent);
     }
+
+    public void PaginaInventario(View view){
+        Intent intent= new Intent(this,View_inventario.class);
+        startActivity(intent);
+    }
 }

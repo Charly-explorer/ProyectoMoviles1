@@ -123,6 +123,34 @@ public class AdminDB extends SQLiteOpenHelper {
         return lista;
     }
 
+    public ArrayList<Inventario> obtenerInventario() {
+        ArrayList<com.example.proyectomoviles1.Inventario> lista = new ArrayList<>();
+        SQLiteDatabase db = this.getReadableDatabase();
+
+        Cursor cursor = db.rawQuery(
+                "SELECT Inv.id, Inv.codigoProducto, P.nombre,Inv.existencias, Inv.estado FROM Inventario Inv INNER JOIN Productos P ON P.codigo = Inv.codigoProducto WHERE Inv.estado = true",null);
+
+        if (cursor.moveToFirst()) {
+            do {
+                lista.add(new com.example.proyectomoviles1.Inventario(
+                        cursor.getInt(0),
+                        cursor.getInt(1),
+                        cursor.getString(2),
+                        cursor.getInt(3),
+                        parseTinyitToBool(cursor.getInt(4))
+                ));
+            } while (cursor.moveToNext());
+        }
+
+        cursor.close();
+        return lista;
+    }
+
+    public boolean parseTinyitToBool(int num){
+        if (num ==1) return true;
+        return  false;
+    }
+
 }
 
 

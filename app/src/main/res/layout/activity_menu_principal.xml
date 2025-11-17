@@ -36,6 +36,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="40dp"
+        android:onClick="PaginaInventario"
         android:text="@string/menu_inventario"
         android:textSize="34sp"
         app:layout_constraintEnd_toEndOf="parent"
