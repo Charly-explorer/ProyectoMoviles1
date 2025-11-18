@@ -37,7 +37,7 @@
             android:paddingEnd="8dp" />
 
         <EditText
-            android:id="@+id/txtCodeInv"
+            android:id="@+id/txtNombre"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -63,7 +63,7 @@
             android:paddingEnd="8dp" />
 
         <EditText
-            android:id="@+id/txtNameInv"
+            android:id="@+id/txtDescripcion"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
