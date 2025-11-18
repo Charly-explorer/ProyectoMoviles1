@@ -92,6 +92,11 @@ public class AdminDB extends SQLiteOpenHelper {
                 "BEGIN " +
                 "   UPDATE Inventario SET estado = 1 WHERE id = NEW.id; " +
                 "END;");
+
+
+        db.execSQL("INSERT INTO Usuarios (nombre, apellido, apellido2, correo, contrasena, esAdmin) " +
+                "VALUES ('Admin', '', '', 'admin@admin.com', 'admin123', 1)");
+
     }
 
     @Override
@@ -149,6 +154,20 @@ public class AdminDB extends SQLiteOpenHelper {
     public boolean parseTinyitToBool(int num){
         if (num ==1) return true;
         return  false;
+    }
+
+    public Integer loginUsuario(String correo, String contrasena) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery(
+                "SELECT esAdmin FROM Usuarios WHERE correo = ? AND contrasena = ? LIMIT 1",
+                new String[]{correo, contrasena}
+        );
+        Integer esAdmin = null;
+        if (cursor.moveToFirst()) {
+            esAdmin = cursor.getInt(0); // 1 pa admin, 0 para usuario normal
+        }
+        cursor.close();
+        return esAdmin;  // no exite el user o la password o estan incorrectas
     }
 
 }

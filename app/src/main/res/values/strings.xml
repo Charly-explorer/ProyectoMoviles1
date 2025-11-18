@@ -15,4 +15,8 @@
     <string name="guardar">Guardar</string>
     <string name="cancelar">Cancelar</string>
     <string name="titulo_Productos">Gestión de Productos</string>
+    <string name="login_title">Inicio de sesión</string>
+    <string name="hint_user">Usuario</string>
+    <string name="hint_password">Contraseña</string>
+    <string name="btn_login">Iniciar sesión</string>
 </resources>

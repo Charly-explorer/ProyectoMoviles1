@@ -16,4 +16,8 @@
     <string name="guardar">Save</string>
     <string name="cancelar">Cancel</string>
     <string name="titulo_Productos">Product management</string>
+    <string name="login_title">Login</string>
+    <string name="hint_user">Username</string>
+    <string name="hint_password">Password</string>
+    <string name="btn_login">Sign in</string>
 </resources>
