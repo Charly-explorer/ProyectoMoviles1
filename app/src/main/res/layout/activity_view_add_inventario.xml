@@ -9,7 +9,6 @@
     android:background="#FDFDFD"
     tools:context=".View_add_inventario">
 
-    <!-- Título -->
     <TextView
         android:id="@+id/textView2"
         android:layout_width="match_parent"
@@ -20,7 +19,6 @@
         android:gravity="center"
         android:paddingBottom="12dp" />
 
-    <!-- Fila Código -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -46,7 +44,6 @@
             android:inputType="number" />
     </LinearLayout>
 
-    <!-- Fila Nombre -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -98,7 +95,6 @@
             android:inputType="number" />
     </LinearLayout>
 
-    <!-- Botones Guardar / Cancelar -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -111,6 +107,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
+            android:onClick="guardar"
             android:text="@string/guardar" />
 
         <View
@@ -125,7 +122,6 @@
             android:text="@string/cancelar" />
     </LinearLayout>
 
-    <!-- Buscar + Agregar -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -134,7 +130,7 @@
         android:paddingBottom="8dp">
 
         <EditText
-            android:id="@+id/editTextText2"
+            android:id="@+id/txtbuscarInvA"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -150,12 +146,12 @@
             android:id="@+id/button7"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:onClick="agregar"
             android:text="@string/btn_agregar" />
     </LinearLayout>
 
-    <!-- Lista de productos -->
     <ListView
-        android:id="@+id/listViewProductos"
+        android:id="@+id/listViewProductosInv"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"

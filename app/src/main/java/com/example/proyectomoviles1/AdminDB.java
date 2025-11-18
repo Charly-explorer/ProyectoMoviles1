@@ -1,6 +1,7 @@
 package com.example.proyectomoviles1;
 
 
+import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
@@ -128,7 +129,7 @@ public class AdminDB extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getReadableDatabase();
 
         Cursor cursor = db.rawQuery(
-                "SELECT Inv.id, Inv.codigoProducto, P.nombre,Inv.existencias, Inv.estado FROM Inventario Inv INNER JOIN Productos P ON P.codigo = Inv.codigoProducto WHERE Inv.estado = true",null);
+                "SELECT Inv.id, Inv.codigoProducto, P.nombre,Inv.existencias, Inv.estado FROM Inventario Inv INNER JOIN Productos P ON P.codigo = Inv.codigoProducto WHERE Inv.estado = 1",null);
 
         if (cursor.moveToFirst()) {
             do {
@@ -151,6 +152,43 @@ public class AdminDB extends SQLiteOpenHelper {
         return  false;
     }
 
+    public void guardarOActualizarInventario(int codigoProducto, int existencias, boolean estado) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor cInv = db.rawQuery(
+                "SELECT id FROM Inventario WHERE codigoProducto = ?",
+                new String[]{ String.valueOf(codigoProducto) }
+        );
+
+        ContentValues valuesInv = new ContentValues();
+        valuesInv.put("codigoProducto", codigoProducto);
+        valuesInv.put("existencias", existencias);
+        valuesInv.put("estado", estado ? 1 : 0);
+
+        if (cInv.moveToFirst()) {
+            db.update(
+                    "Inventario",
+                    valuesInv,
+                    "codigoProducto = ?",
+                    new String[]{ String.valueOf(codigoProducto) }
+            );
+        } else {
+            db.insert("Inventario", null, valuesInv);
+        }
+
+        cInv.close();
+    }
+
+    public void desactivarInventarioPorId(int idInventario) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put("estado", 0);
+        db.update(
+                "Inventario",
+                values,
+                "id = ?",
+                new String[]{ String.valueOf(idInventario) }
+        );
+    }
 }
 
 
