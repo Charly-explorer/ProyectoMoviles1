@@ -1,11 +1,15 @@
 package com.example.proyectomoviles1;
 
 import android.database.sqlite.SQLiteDatabase;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -21,6 +25,7 @@ public class View_inventario extends AppCompatActivity {
     ArrayList<Inventario> lista;
     CustomAdapterInventario adapter;
     EditText txtBuscador;
+    int itemseleccionado = -1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,26 +52,67 @@ public class View_inventario extends AppCompatActivity {
 
         this.adapter = new CustomAdapterInventario(this, this.lista);
         this.listViewInventario.setAdapter(adapter);
-
+        removerInventarioDesactivado();
         this.txtBuscador.addTextChangedListener(new TextWatcher() {
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                String texto = s.toString();
+                String texto = s.toString().toLowerCase();
                 filtrarInventario(texto);
             }
             @Override public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
             @Override public void afterTextChanged(Editable s) {}
+        });
+
+        this.listViewInventario.setOnItemClickListener((AdapterView<?> parent, View view, int position, long id) -> {
+            itemseleccionado = position;
+            for (int i = 0; i < listViewInventario.getChildCount(); i++) {
+                listViewInventario.getChildAt(i).setBackgroundColor(Color.TRANSPARENT);
+            }
+            view.setBackgroundColor(Color.LTGRAY);
+            view.findViewById(R.id.textViewCodeInv);
         });
     }
 
     private void filtrarInventario(String texto) {
         ArrayList<Inventario> filtrada = new ArrayList<>();
         for (Inventario inv : this.lista) {
-            if (String.valueOf(inv.getNombreProducto()).contains(texto)) {
+            if (inv.getNombreProducto().toLowerCase().contains(texto)) {
                 filtrada.add(inv);
             }
         }
-        adapter.updateList(filtrada);
+        this.adapter.updateList(filtrada);
+    }
+
+    public void removerInventarioDesactivado(){
+        ArrayList<Inventario> newlist = new ArrayList<>();
+        for (Inventario inv : lista){
+            if(inv.isEstado()){
+                newlist.add(inv);
+            }
+        }
+        this.adapter.updateList(newlist);
+    }
+
+    public void eliminar(View v){
+        if (itemseleccionado >= 0)
+        {
+            //Falta que cambie el estado en la base de datos, para que no aparesca
+            //EliminarPorNombre(adapter.getItem(itemseleccionado));
+            Inventario inv = (Inventario) adapter.getItem(itemseleccionado);
+            //adapter.remove(inv.getIdInv());
+            //lista.remove(inv);
+            //adapter.remove(inv);
+            View itemresaltado = listViewInventario.getChildAt(itemseleccionado);
+            if (itemresaltado != null) {
+                itemresaltado.setBackgroundColor(0);
+            }
+            itemseleccionado = -1;
+            removerInventarioDesactivado();
+        }
+        else
+        {
+            Toast.makeText(getApplicationContext(),"Debe seleccionar un item", Toast.LENGTH_SHORT).show();
+        }
     }
 
 }

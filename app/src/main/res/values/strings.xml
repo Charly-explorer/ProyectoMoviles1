@@ -11,4 +11,7 @@
     <string name="btn_eliminar">Eliminar</string>
     <string name="label_codigo">Código: </string>
     <string name="label_existencia">Existencia: </string>
+    <string name="label_nombre">Nombre: </string>
+    <string name="guardar">Guardar</string>
+    <string name="cancelar">Cancelar</string>
 </resources>

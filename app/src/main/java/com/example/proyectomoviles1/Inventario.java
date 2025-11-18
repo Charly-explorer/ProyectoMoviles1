@@ -34,4 +34,12 @@ public class Inventario {
     public boolean isEstado() {
         return estado;
     }
+
+    public void setExistencia(int existencia) {
+        this.existencia = existencia;
+    }
+
+    public void setEstado(boolean estado) {
+        this.estado = estado;
+    }
 }

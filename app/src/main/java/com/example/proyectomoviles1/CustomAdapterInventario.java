@@ -53,4 +53,17 @@ public class CustomAdapterInventario extends BaseAdapter{
         this.lista = nuevaLista;
         notifyDataSetChanged();
     }
+
+    public void remove(int id){
+        for (Inventario inv : this.lista) {
+            if(inv.getIdInv()==id){
+                inv.setEstado(false);
+            }
+        }
+
+    }
+
+    public void remove(Inventario obj){
+        lista.remove(obj);
+    }
 }
