@@ -32,18 +32,19 @@
             android:id="@+id/textView3"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/label_codigo"
-            android:textSize="18sp"
-            android:paddingEnd="8dp" />
+            android:paddingEnd="8dp"
+            android:text="@string/label_nombre"
+            android:textSize="18sp" />
 
         <EditText
-            android:id="@+id/txtCodeInv"
-            android:layout_width="0dp"
+            android:id="@+id/txtNombre"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:ems="10"
-            android:hint="Codigo producto"
-            android:inputType="number" />
+            android:hint="Nombre producto"
+            android:inputType="text" />
+
     </LinearLayout>
 
     <!-- Fila Nombre -->
@@ -58,17 +59,19 @@
             android:id="@+id/textView4"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/label_nombre"
-            android:textSize="18sp"
-            android:paddingEnd="8dp" />
+            android:paddingEnd="8dp"
+            android:text="@string/Descripcion"
+            android:textSize="18sp" />
 
         <EditText
-            android:id="@+id/txtNameInv"
+            android:id="@+id/txtDescripcion"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
+            android:editable="true"
             android:ems="10"
-            android:hint="Nombre producto"
+            android:enabled="true"
+            android:hint="Descripcion"
             android:inputType="text" />
     </LinearLayout>
 
@@ -84,18 +87,16 @@
             android:id="@+id/textView5"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/label_existencia"
-            android:textSize="18sp"
-            android:paddingEnd="8dp" />
+            android:paddingEnd="8dp"
+            android:text="@string/Categoria"
+            android:textSize="18sp" />
 
-        <EditText
-            android:id="@+id/txtExisInv"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:ems="10"
-            android:hint="Existencia Producto"
-            android:inputType="number" />
+        <Spinner
+            android:id="@+id/spCategoria"
+            android:layout_width="300dp"
+            android:layout_height="50dp"
+            android:layout_weight="1" />
+
     </LinearLayout>
 
     <!-- Botones Guardar / Cancelar -->
@@ -150,6 +151,7 @@
             android:id="@+id/button7"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:onClick="crearProducto"
             android:text="@string/btn_agregar" />
     </LinearLayout>
 

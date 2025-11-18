@@ -16,4 +16,6 @@
     <string name="guardar">Save</string>
     <string name="cancelar">Cancel</string>
     <string name="titulo_Productos">Product management</string>
+    <string name="Descripcion">Description</string>
+    <string name="Categoria">Category</string>
 </resources>

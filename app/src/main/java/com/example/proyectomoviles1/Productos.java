@@ -45,13 +45,11 @@ public class Productos extends AppCompatActivity {
             int count = c.getInt(0);
             if (count == 0) {
                 bd.execSQL("INSERT INTO Categorias(nombre) VALUES('Prueba')");
-                bd.execSQL("INSERT INTO Productos(nombre, idCategoria, descripcion) " +
-                        "VALUES('Producto Prueba', 1, 'Cargado desde Activity')");
+                bd.execSQL("INSERT INTO Productos(nombre, idCategoria, descripcion) VALUES('Producto Prueba', 1, 'Cargado desde Activity')");
             }
         }
         c.close();
         listViewProductos = findViewById(R.id.listViewGestionProductos);
-
 
         lista = db.obtenerProductos();
 
