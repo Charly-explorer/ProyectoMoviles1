@@ -7,43 +7,35 @@
     android:padding="16dp"
     android:background="#F5F5F5"
     android:id="@+id/main"
-    tools:context=".MainActivity">
+    tools:context=".Productos">
 
     <!-- Título -->
     <TextView
         android:id="@+id/txtTitulo"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Gestión de Productos"
-        android:textSize="22sp"
-        android:textStyle="bold"
+        android:layout_marginBottom="16dp"
         android:gravity="center"
+        android:text="@string/titulo_Productos"
         android:textColor="#222222"
-        android:layout_marginBottom="16dp" />
+        android:textSize="22sp"
+        android:textStyle="bold" />
 
     <!-- Campo de texto para nombre -->
     <EditText
         android:id="@+id/txtnombre"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Nombre del Producto"
-        android:inputType="textPersonName"
+        android:layout_marginBottom="12dp"
         android:background="@android:drawable/editbox_background"
-        android:padding="10dp"
-        android:layout_marginBottom="12dp" />
+        android:hint="@string/barra_busqueda_Inv"
+        android:inputType="textPersonName"
+        android:padding="10dp" />
 
     <!-- Botones principales -->
 
     <!-- Separador -->
 
-
-    <Button
-        android:id="@+id/btnConsultar"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="10dp"
-        android:onClick="Consultar"
-        android:text="Consultar" />
 
     <View
         android:layout_width="match_parent"
@@ -55,7 +47,7 @@
     <!-- Lista de estudiantes -->
 
     <ListView
-        android:id="@+id/listViewProductos"
+        android:id="@+id/listViewGestionProductos"
         android:layout_width="match_parent"
         android:layout_height="1211dp"
         android:layout_weight="1"
@@ -75,15 +67,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="10dp"
-            android:onClick="Editar"
-            android:text="Editar" />
-
-        <Button
-            android:id="@+id/btnAgregar"
-            android:layout_width="123dp"
-            android:layout_height="wrap_content"
-            android:onClick="Agregar"
-            android:text="Agregar" />
+            android:onClick="GestionarProductos"
+            android:text="Gestionar Productos" />
 
     </LinearLayout>
 

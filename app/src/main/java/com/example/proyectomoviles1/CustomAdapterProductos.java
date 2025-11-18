@@ -54,5 +54,9 @@ public class CustomAdapterProductos extends BaseAdapter {
 
         return convertView;
     }
+    public void updateList(ArrayList<Producto> nuevaLista) {
+        this.lista = nuevaLista;
+        notifyDataSetChanged();
+    }
 }
 

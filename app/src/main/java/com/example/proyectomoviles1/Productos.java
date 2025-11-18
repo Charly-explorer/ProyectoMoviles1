@@ -1,8 +1,13 @@
 package com.example.proyectomoviles1;
 
+import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.view.View;
+import android.widget.EditText;
 import android.widget.ListView;
 
 import androidx.activity.EdgeToEdge;
@@ -18,6 +23,7 @@ public class Productos extends AppCompatActivity {
     AdminDB db;
     ArrayList<Producto> lista;
     CustomAdapterProductos adapter;
+    EditText txtBuscador;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -28,7 +34,8 @@ public class Productos extends AppCompatActivity {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
-        AdminDB db = new AdminDB(this, "UTN", null, 1);
+        this.txtBuscador = (EditText) findViewById(R.id.txtnombre);
+        db = new AdminDB(this, "UTN", null, 1);
         SQLiteDatabase bd = db.getWritableDatabase();
 
 // Verificar si existen categorías
@@ -43,9 +50,8 @@ public class Productos extends AppCompatActivity {
             }
         }
         c.close();
-        listViewProductos = findViewById(R.id.listViewProductos);
+        listViewProductos = findViewById(R.id.listViewGestionProductos);
 
-        db = new AdminDB(this, "miBD", null, 1);
 
         lista = db.obtenerProductos();
 
@@ -53,7 +59,30 @@ public class Productos extends AppCompatActivity {
 
         listViewProductos.setAdapter(adapter);
 
+        this.txtBuscador.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                String texto = s.toString().toLowerCase();
+                buscarProducto(texto);
+            }
+            @Override public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+            @Override public void afterTextChanged(Editable s) {}
+        });
 
+
+    }
+    public void GestionarProductos(View view){
+        Intent intent= new Intent(this,View_AgregarProducto.class);
+        startActivity(intent);
+    }
+    private void buscarProducto(String texto) {
+        ArrayList<Producto> filtrada = new ArrayList<>();
+        for (Producto inv : this.lista) {
+            if (inv.getNombre().toLowerCase().contains(texto)) {
+                filtrada.add(inv);
+            }
+        }
+        adapter.updateList(filtrada);
     }
 
 

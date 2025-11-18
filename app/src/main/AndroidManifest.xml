@@ -15,10 +15,10 @@
             android:name=".View_add_inventario"
             android:exported="false" />
         <activity
-            android:name=".View_inventario"
+            android:name=".View_AgregarProducto"
             android:exported="false" />
         <activity
-            android:name=".View_Movimiento"
+            android:name=".View_inventario"
             android:exported="false" />
         <activity
             android:name=".Productos"
