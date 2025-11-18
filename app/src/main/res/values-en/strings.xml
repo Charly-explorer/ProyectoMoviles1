@@ -20,4 +20,7 @@
     <string name="hint_user">Username</string>
     <string name="hint_password">Password</string>
     <string name="btn_login">Sign in</string>
+    <string name="Descripcion">Description</string>
+    <string name="Categoria">Category</string>
+    <string name="gestinar_Inv">Manage inventory</string>
 </resources>

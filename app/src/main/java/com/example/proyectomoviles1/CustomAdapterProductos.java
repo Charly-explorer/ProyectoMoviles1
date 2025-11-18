@@ -26,7 +26,7 @@ public class CustomAdapterProductos extends BaseAdapter {
     }
 
     @Override
-    public Object getItem(int position) {
+    public Producto getItem(int position) {
         return lista.get(position);
     }
 

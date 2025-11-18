@@ -7,7 +7,7 @@
     android:padding="16dp"
     android:background="#F5F5F5"
     android:id="@+id/main"
-    tools:context=".MainActivity">
+    tools:context=".View_inventario">
 
     <!-- Título -->
     <TextView
@@ -31,13 +31,6 @@
         android:inputType="textPersonName"
         android:padding="10dp" />
 
-
-    <Button
-        android:id="@+id/btnConsultarInv"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="10dp"
-        android:text="Consultar" />
 
     <View
         android:layout_width="match_parent"
@@ -65,18 +58,12 @@
         android:orientation="horizontal">
 
         <Button
-            android:id="@+id/btnEditarInv"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="10dp"
-            android:text="@string/btn_editar" />
-
-        <Button
             android:id="@+id/btnAgregarInv"
             android:layout_width="123dp"
             android:layout_height="wrap_content"
             android:layout_marginEnd="10dp"
-            android:text="@string/btn_agregar" />
+            android:onClick="viewEditInv"
+            android:text="@string/gestinar_Inv" />
 
         <Button
             android:id="@+id/btnEliminarInv"
