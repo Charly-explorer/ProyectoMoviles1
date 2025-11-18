@@ -1,5 +1,6 @@
 package com.example.proyectomoviles1;
 
+import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -113,6 +114,11 @@ public class View_inventario extends AppCompatActivity {
         {
             Toast.makeText(getApplicationContext(),"Debe seleccionar un item", Toast.LENGTH_SHORT).show();
         }
+    }
+
+    public void viewEditInv(View view){
+        Intent intent= new Intent(this,View_add_inventario.class);
+        startActivity(intent);
     }
 
 }

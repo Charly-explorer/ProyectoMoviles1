@@ -15,4 +15,5 @@
     <string name="guardar">Guardar</string>
     <string name="cancelar">Cancelar</string>
     <string name="titulo_Productos">Gestión de Productos</string>
+    <string name="gestinar_Inv">Gestionar invetario</string>
 </resources>

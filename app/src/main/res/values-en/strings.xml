@@ -16,4 +16,5 @@
     <string name="guardar">Save</string>
     <string name="cancelar">Cancel</string>
     <string name="titulo_Productos">Product management</string>
+    <string name="gestinar_Inv">Manage inventory</string>
 </resources>
