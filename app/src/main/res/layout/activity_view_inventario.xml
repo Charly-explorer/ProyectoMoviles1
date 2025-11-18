@@ -82,6 +82,7 @@
             android:id="@+id/btnEliminarInv"
             android:layout_width="123dp"
             android:layout_height="wrap_content"
+            android:onClick="eliminar"
             android:text="@string/btn_eliminar" />
 
     </LinearLayout>

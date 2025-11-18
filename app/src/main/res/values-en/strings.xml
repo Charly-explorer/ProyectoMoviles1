@@ -12,4 +12,7 @@
     <string name="btn_eliminar">Delete</string>
     <string name="label_codigo">Code: </string>
     <string name="label_existencia">Stock: </string>
+    <string name="label_nombre">Name: </string>
+    <string name="guardar">Save</string>
+    <string name="cancelar">Cancel</string>
 </resources>
