@@ -1,9 +1,11 @@
 package com.example.proyectomoviles1;
 
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteStatement;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Spinner;
@@ -38,6 +40,12 @@ public class View_AgregarProducto extends AppCompatActivity {
         this.spCategoria = (Spinner) findViewById(R.id.spCategoria);
         db = new AdminDB(this, "UTN", null, 1);
         SQLiteDatabase bd = db.getWritableDatabase();
+
+
+        ArrayList<Categoria> categorias = obtenerCategorias();
+        ArrayAdapter<Categoria> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, categorias);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spCategoria.setAdapter(adapter);
         listViewProductos = findViewById(R.id.listViewGestionProductos);
 
         Gestionlista = db.obtenerProductos();
@@ -48,17 +56,40 @@ public class View_AgregarProducto extends AppCompatActivity {
     }
     public void crearProducto(View view){
         SQLiteDatabase bd = db.getWritableDatabase();
-        //String cat = spCategoria.getSelectedItem().toString();
+
+        Categoria categoriaSeleccionada = (Categoria) spCategoria.getSelectedItem();
+        int idCategoria = categoriaSeleccionada.getId();
+
+
         String nombre = txtCodeInv.getText().toString();
         String descripcion = txtNameInv.getText().toString();
         String sql = "INSERT INTO Productos(nombre, idCategoria, descripcion) VALUES (?, ?, ?)";
         SQLiteStatement stmt = bd.compileStatement(sql);
         stmt.bindString(1, nombre);
-        stmt.bindLong(2, 1);
+        stmt.bindLong(2, idCategoria);
         stmt.bindString(3, descripcion);
         stmt.executeInsert();
 
         Gestionlistaadapter.updateList(db.obtenerProductos());
 
     }
+    public ArrayList<Categoria> obtenerCategorias() {
+
+        SQLiteDatabase bd = db.getWritableDatabase();
+        ArrayList<Categoria> lista = new ArrayList<>();
+
+        Cursor c = bd.rawQuery("SELECT * FROM Categorias", null);
+
+        if (c.moveToFirst()) {
+            do {
+                int id = c.getInt(0);
+                String nombre = c.getString(1);
+
+                lista.add(new Categoria(id, nombre));
+            } while (c.moveToNext());
+        }
+        c.close();
+        return lista;
+    }
+
 }
