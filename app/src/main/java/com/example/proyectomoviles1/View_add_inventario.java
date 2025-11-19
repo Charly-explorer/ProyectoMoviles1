@@ -115,11 +115,12 @@ public class View_add_inventario extends AppCompatActivity {
 
         if(existeProducto){
             if(!codigo.isEmpty() && !existencia.isEmpty()){
-                Intent i = new Intent(View_add_inventario.this, View_inventario.class);
+                Intent i = new Intent();
                 i.putExtra("codigo", Integer.parseInt(codigo));
                 i.putExtra("nombre", nombre);
                 i.putExtra("existencia", Integer.parseInt(existencia));
-                startActivity(i);
+                setResult(RESULT_OK, i);
+                finish();
             } else{
                 Toast.makeText(getApplicationContext(),"Debe llenar las casillas codigo ó existencia", Toast.LENGTH_SHORT).show();
             }
@@ -129,8 +130,7 @@ public class View_add_inventario extends AppCompatActivity {
     }
 
     public void volverViewInv(View view){
-        Intent intent= new Intent(this,View_inventario.class);
-        startActivity(intent);
+        finish();
     }
 
 

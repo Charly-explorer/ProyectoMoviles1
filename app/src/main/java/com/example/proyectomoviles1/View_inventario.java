@@ -76,20 +76,6 @@ public class View_inventario extends AppCompatActivity {
         this.adapter = new CustomAdapterInventario(this, this.lista);
         this.listViewInventario.setAdapter(adapter);
 
-        Bundle extras = getIntent().getExtras();
-        if (extras != null) {
-            Intent i = getIntent();
-            int codigo = i.getIntExtra("codigo", 0);
-            String nombre = i.getStringExtra("nombre");
-            int existencia = i.getIntExtra("existencia", 0);
-            if(codigo >0 && !nombre.isEmpty() && existencia >=0){
-                db.guardarOActualizarInventario(codigo, existencia, true);
-                lista = db.obtenerInventario();
-                adapter.updateList(lista);
-                listViewInventario.setAdapter(adapter);
-            }
-        }
-
         removerInventarioDesactivado();
         this.txtBuscador.addTextChangedListener(new TextWatcher() {
             @Override
@@ -131,6 +117,24 @@ public class View_inventario extends AppCompatActivity {
         this.adapter.updateList(newlist);
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (requestCode == 1001 && resultCode == RESULT_OK) {
+
+            int codigo = data.getIntExtra("codigo", 0);
+            String nombre = data.getStringExtra("nombre");
+            int existencia = data.getIntExtra("existencia", 0);
+
+            if (codigo > 0) {
+                db.guardarOActualizarInventario(codigo, existencia, true);
+                lista = db.obtenerInventario();
+                adapter.updateList(lista);
+            }
+        }
+    }
+
     public void eliminar(View v){
         if (itemseleccionado >= 0)
         {
@@ -152,12 +156,11 @@ public class View_inventario extends AppCompatActivity {
 
     public void viewEditInv(View view){
         Intent intent= new Intent(this,View_add_inventario.class);
-        startActivity(intent);
+        startActivityForResult(intent, 1001);
     }
 
     public void volverMenu(View view){
-        Intent intent= new Intent(this,menu_principal.class);
-        startActivity(intent);
+        finish();
     }
 
 }
