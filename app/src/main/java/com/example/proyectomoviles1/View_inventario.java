@@ -145,6 +145,7 @@ public class View_inventario extends AppCompatActivity {
             //Revisar por que aun no cambia el estado en la DB a falso
             Inventario inv = (Inventario) adapter.getItem(itemseleccionado);
             db.desactivarInventarioPorId(inv.getIdInv());
+            //Toast.makeText(getApplicationContext(),String.valueOf(inv.getCodigoProducto()), Toast.LENGTH_SHORT).show();
             View itemresaltado = listViewInventario.getChildAt(itemseleccionado);
             if (itemresaltado != null) {
                 itemresaltado.setBackgroundColor(0);
@@ -161,6 +162,11 @@ public class View_inventario extends AppCompatActivity {
 
     public void viewEditInv(View view){
         Intent intent= new Intent(this,View_add_inventario.class);
+        startActivity(intent);
+    }
+
+    public void volverMenu(View view){
+        Intent intent= new Intent(this,menu_principal.class);
         startActivity(intent);
     }
 

@@ -22,4 +22,5 @@
     <string name="Descripcion">Descripcion</string>
     <string name="Categoria">Categoria</string>
     <string name="gestinar_Inv">Gestionar invetario</string>
+    <string name="volver">Volver</string>
 </resources>

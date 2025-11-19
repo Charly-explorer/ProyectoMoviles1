@@ -23,4 +23,5 @@
     <string name="Descripcion">Description</string>
     <string name="Categoria">Category</string>
     <string name="gestinar_Inv">Manage inventory</string>
+    <string name="volver">Return</string>
 </resources>
