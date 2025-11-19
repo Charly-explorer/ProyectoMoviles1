@@ -196,6 +196,31 @@ public class AdminDB extends SQLiteOpenHelper {
 
         cInv.close();
     }
+    public void guardarOActualizarProducto(int codigoProducto, String nombre, int idCategoria, String descripcion ) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor cInv = db.rawQuery(
+                "SELECT codigo FROM Productos WHERE codigo = ?",
+                new String[]{ String.valueOf(codigoProducto) }
+        );
+
+        ContentValues valuesInv = new ContentValues();
+        valuesInv.put("nombre", nombre);
+        valuesInv.put("idCategoria", idCategoria);
+        valuesInv.put("descripcion", descripcion);
+
+        if (cInv.moveToFirst()) {
+            db.update(
+                    "Productos",
+                    valuesInv,
+                    "codigo = ?",
+                    new String[]{ String.valueOf(codigoProducto) }
+            );
+        } else {
+            db.insert("Productos", null, valuesInv);
+        }
+
+        cInv.close();
+    }
 
     public void desactivarInventarioPorId(int idInventario) {
         SQLiteDatabase db = this.getWritableDatabase();

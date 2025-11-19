@@ -9,6 +9,7 @@ import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -25,6 +26,8 @@ public class View_AgregarProducto extends AppCompatActivity {
     AdminDB db;
     ArrayList<Producto> Gestionlista;
     CustomAdapterProductos Gestionlistaadapter;
+    Producto productoSeleccionado = null;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -53,6 +56,21 @@ public class View_AgregarProducto extends AppCompatActivity {
         Gestionlistaadapter = new CustomAdapterProductos(this, Gestionlista);
 
         listViewProductos.setAdapter(Gestionlistaadapter);
+
+        listViewProductos.setOnItemClickListener((parent, view, position, id) -> {
+            Producto seleccionado = Gestionlista.get(position);
+
+            // Guardar el producto seleccionado (lo usamos después)
+            productoSeleccionado = seleccionado;
+
+            // Rellenar los EditText
+            txtCodeInv.setText(String.valueOf(seleccionado.getNombre()));
+            txtNameInv.setText(seleccionado.getDescripcion());
+
+            // Seleccionar la categoría correspondiente en el spinner
+            seleccionarCategoriaEnSpinner(seleccionado.getIdCategoria());
+        });
+
     }
     public void crearProducto(View view){
         SQLiteDatabase bd = db.getWritableDatabase();
@@ -63,15 +81,20 @@ public class View_AgregarProducto extends AppCompatActivity {
 
         String nombre = txtCodeInv.getText().toString();
         String descripcion = txtNameInv.getText().toString();
-        String sql = "INSERT INTO Productos(nombre, idCategoria, descripcion) VALUES (?, ?, ?)";
-        SQLiteStatement stmt = bd.compileStatement(sql);
-        stmt.bindString(1, nombre);
-        stmt.bindLong(2, idCategoria);
-        stmt.bindString(3, descripcion);
-        stmt.executeInsert();
+        if(nombre.isEmpty() || descripcion.isEmpty()){
+            Toast.makeText(this, "Ingrese todos los campos", Toast.LENGTH_SHORT).show();
+            return;
+        }else {
 
-        Gestionlistaadapter.updateList(db.obtenerProductos());
+            String sql = "INSERT INTO Productos(nombre, idCategoria, descripcion) VALUES (?, ?, ?)";
+            SQLiteStatement stmt = bd.compileStatement(sql);
+            stmt.bindString(1, nombre);
+            stmt.bindLong(2, idCategoria);
+            stmt.bindString(3, descripcion);
+            stmt.executeInsert();
 
+            Gestionlistaadapter.updateList(db.obtenerProductos());
+        }
     }
     public ArrayList<Categoria> obtenerCategorias() {
 
@@ -91,5 +114,45 @@ public class View_AgregarProducto extends AppCompatActivity {
         c.close();
         return lista;
     }
+
+    public void actualizarProducto(View view){
+
+        if (productoSeleccionado == null) {
+            Toast.makeText(this, "Seleccione un producto de la lista", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        int codigo = productoSeleccionado.getCode();    // ID REAL DEL PRODUCTO
+        String nombre = txtCodeInv.getText().toString();
+        String descripcion = txtNameInv.getText().toString();
+
+        Categoria categoriaSeleccionada = (Categoria) spCategoria.getSelectedItem();
+        int idCategoria = categoriaSeleccionada.getId();
+
+        if(!nombre.isEmpty() && !descripcion.isEmpty()){
+
+            db.guardarOActualizarProducto(codigo, nombre, idCategoria, descripcion);
+
+            Gestionlistaadapter.updateList(db.obtenerProductos());
+
+            Toast.makeText(this, "Producto actualizado", Toast.LENGTH_SHORT).show();
+        }
+
+        txtCodeInv.setText("");
+        txtNameInv.setText("");
+        productoSeleccionado = null;
+    }
+
+
+    private void seleccionarCategoriaEnSpinner(int idCategoria) {
+        for (int i = 0; i < spCategoria.getCount(); i++) {
+            Categoria c = (Categoria) spCategoria.getItemAtPosition(i);
+            if (c.getId() == idCategoria) {
+                spCategoria.setSelection(i);
+                break;
+            }
+        }
+    }
+
 
 }

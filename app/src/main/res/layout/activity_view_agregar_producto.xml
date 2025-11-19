@@ -119,6 +119,7 @@
             android:id="@+id/btnGuardar"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:onClick="actualizarProducto"
             android:text="@string/btn_editar"
             android:textSize="13sp" />
 

@@ -68,7 +68,7 @@
             android:layout_height="wrap_content"
             android:layout_marginEnd="10dp"
             android:onClick="GestionarProductos"
-            android:text="Gestionar Productos" />
+            android:text="@string/gestinar_prod" />
 
     </LinearLayout>
 
