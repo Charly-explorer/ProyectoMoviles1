@@ -38,7 +38,6 @@ public class Productos extends AppCompatActivity {
         db = new AdminDB(this, "UTN", null, 1);
         SQLiteDatabase bd = db.getWritableDatabase();
 
-// Verificar si existen categorías
         Cursor c = bd.rawQuery("SELECT COUNT(*) FROM Categorias", null);
 
         if (c.moveToFirst()) {
@@ -71,6 +70,10 @@ public class Productos extends AppCompatActivity {
     }
     public void GestionarProductos(View view){
         Intent intent= new Intent(this,View_AgregarProducto.class);
+        startActivity(intent);
+    }
+    public void Regresar(View view){
+        Intent intent= new Intent(this,menu_principal.class);
         startActivity(intent);
     }
     private void buscarProducto(String texto) {

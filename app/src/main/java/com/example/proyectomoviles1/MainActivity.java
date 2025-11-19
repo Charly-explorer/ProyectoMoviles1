@@ -47,12 +47,10 @@ public class MainActivity extends AppCompatActivity {
             Toast.makeText(MainActivity.this, "Correo o contraseña incorrectos", Toast.LENGTH_SHORT).show();
         } else {
             if (esAdmin == 1) {
-                // Login como ADMIN
                 Intent intent = new Intent(MainActivity.this, menu_principal.class);
                 startActivity(intent);
-                finish(); // opcional, para que no vuelva al login con Back
+                finish();
             } else {
-                // Login como USUARIO (luego podremos mandarlo a otro menú)
                 Toast.makeText(MainActivity.this, "Login como USUARIO", Toast.LENGTH_SHORT).show();
             }
         }

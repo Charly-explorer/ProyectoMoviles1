@@ -17,7 +17,6 @@ public class Categoria {
         return nombre;
     }
 
-    // IMPORTANTE: esto es lo que el Spinner muestra
     @Override
     public String toString() {
         return nombre;

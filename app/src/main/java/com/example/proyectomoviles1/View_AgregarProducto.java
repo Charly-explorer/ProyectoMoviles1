@@ -1,9 +1,12 @@
 package com.example.proyectomoviles1;
 
+import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteStatement;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
@@ -21,7 +24,7 @@ import java.util.ArrayList;
 
 public class View_AgregarProducto extends AppCompatActivity {
     ListView listViewProductos;
-    EditText txtCodeInv, txtNameInv;
+    EditText txtCodeInv, txtNameInv, txtBuscador;
     Spinner spCategoria;
     AdminDB db;
     ArrayList<Producto> Gestionlista;
@@ -38,6 +41,7 @@ public class View_AgregarProducto extends AppCompatActivity {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
+        this.txtBuscador = (EditText) findViewById(R.id.txtbuscarInvA);
         this.txtCodeInv = (EditText) findViewById(R.id.txtNombre);
         this.txtNameInv = (EditText) findViewById(R.id.txtDescripcion);
         this.spCategoria = (Spinner) findViewById(R.id.spCategoria);
@@ -60,15 +64,22 @@ public class View_AgregarProducto extends AppCompatActivity {
         listViewProductos.setOnItemClickListener((parent, view, position, id) -> {
             Producto seleccionado = Gestionlista.get(position);
 
-            // Guardar el producto seleccionado (lo usamos después)
             productoSeleccionado = seleccionado;
 
-            // Rellenar los EditText
             txtCodeInv.setText(String.valueOf(seleccionado.getNombre()));
             txtNameInv.setText(seleccionado.getDescripcion());
 
-            // Seleccionar la categoría correspondiente en el spinner
             seleccionarCategoriaEnSpinner(seleccionado.getIdCategoria());
+        });
+
+        this.txtBuscador.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                String texto = s.toString().toLowerCase();
+                buscarProducto(texto);
+            }
+            @Override public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+            @Override public void afterTextChanged(Editable s) {}
         });
 
     }
@@ -122,7 +133,7 @@ public class View_AgregarProducto extends AppCompatActivity {
             return;
         }
 
-        int codigo = productoSeleccionado.getCode();    // ID REAL DEL PRODUCTO
+        int codigo = productoSeleccionado.getCode();
         String nombre = txtCodeInv.getText().toString();
         String descripcion = txtNameInv.getText().toString();
 
@@ -152,6 +163,20 @@ public class View_AgregarProducto extends AppCompatActivity {
                 break;
             }
         }
+    }
+    private void buscarProducto(String texto) {
+        ArrayList<Producto> filtrada = new ArrayList<>();
+        for (Producto inv : this.Gestionlista) {
+            if (inv.getNombre().toLowerCase().contains(texto)) {
+                filtrada.add(inv);
+            }
+        }
+        Gestionlistaadapter.updateList(filtrada);
+    }
+
+    public void Regresar(View view){
+        Intent intent= new Intent(this,Productos.class);
+        startActivity(intent);
     }
 
 

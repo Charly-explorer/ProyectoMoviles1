@@ -9,7 +9,6 @@
     android:background="#FDFDFD"
     tools:context=".View_AgregarProducto">
 
-    <!-- Título -->
     <TextView
         android:id="@+id/textView2"
         android:layout_width="match_parent"
@@ -20,7 +19,6 @@
         android:textSize="26sp"
         android:textStyle="bold" />
 
-    <!-- Fila Código -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -47,7 +45,6 @@
 
     </LinearLayout>
 
-    <!-- Fila Nombre -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -75,7 +72,6 @@
             android:inputType="text" />
     </LinearLayout>
 
-    <!-- Fila Existencia -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -99,7 +95,6 @@
 
     </LinearLayout>
 
-    <!-- Botones Guardar / Cancelar -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -128,12 +123,12 @@
             android:id="@+id/button6"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/cancelar"
+            android:onClick="Regresar"
+            android:text="@string/regresar"
             android:textSize="13sp" />
 
     </LinearLayout>
 
-    <!-- Buscar + Agregar -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -156,7 +151,6 @@
 
     </LinearLayout>
 
-    <!-- Lista de productos -->
     <ListView
         android:id="@+id/listViewGestionProductos"
         android:layout_width="match_parent"

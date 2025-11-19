@@ -142,7 +142,6 @@ public class View_inventario extends AppCompatActivity {
     public void eliminar(View v){
         if (itemseleccionado >= 0)
         {
-            //Revisar por que aun no cambia el estado en la DB a falso
             Inventario inv = (Inventario) adapter.getItem(itemseleccionado);
             db.desactivarInventarioPorId(inv.getIdInv());
             View itemresaltado = listViewInventario.getChildAt(itemseleccionado);
