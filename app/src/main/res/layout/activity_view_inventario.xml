@@ -70,6 +70,14 @@
             android:onClick="eliminar"
             android:text="@string/btn_eliminar" />
 
+        <Button
+            android:id="@+id/button4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:onClick="volverMenu"
+            android:text="@string/volver" />
+
     </LinearLayout>
 
 </LinearLayout>

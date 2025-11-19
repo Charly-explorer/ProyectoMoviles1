@@ -23,6 +23,7 @@
     <string name="Descripcion">Description</string>
     <string name="Categoria">Category</string>
     <string name="gestinar_Inv">Manage inventory</string>
+    <string name="volver">Return</string>
     <string name="gestinar_prod">Manage products</string>
     <string name="regresar">Return</string>
 </resources>

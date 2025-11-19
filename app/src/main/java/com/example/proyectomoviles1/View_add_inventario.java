@@ -91,6 +91,10 @@ public class View_add_inventario extends AppCompatActivity {
             }
             txtNombrePro.setText(pro.nombre);
             txtCodigoPro.setText(String.valueOf(pro.code));
+            Inventario inv = db.obtenerProductoInventario(pro.code);
+            if(inv !=null){
+                txtExistenciaInv.setText(String.valueOf(inv.getExistencia()));
+            }
             txtCodigoPro.setEnabled(false);
             itemseleccionado = -1;
         }
@@ -104,15 +108,25 @@ public class View_add_inventario extends AppCompatActivity {
         String codigo = txtCodigoPro.getText().toString();
         String nombre = txtNombrePro.getText().toString();
         String existencia = txtExistenciaInv.getText().toString();
-        if(!codigo.isEmpty() && !nombre.isEmpty() && !existencia.isEmpty()){
-            Intent i = new Intent(View_add_inventario.this, View_inventario.class);
-            i.putExtra("codigo", Integer.parseInt(codigo));
-            i.putExtra("nombre", nombre);
-            i.putExtra("existencia", Integer.parseInt(existencia));
-            startActivity(i);
-        } else{
-            Toast.makeText(getApplicationContext(),"Debe llenar todas las casillas", Toast.LENGTH_SHORT).show();
-        }
+        Inventario inv = db.obtenerProductoInventario(Integer.parseInt(codigo));
+        if(inv !=null){
+            txtNombrePro.setText(inv.getNombreProducto());
+            if(!codigo.isEmpty() && !existencia.isEmpty()){
+                Intent i = new Intent(View_add_inventario.this, View_inventario.class);
+                i.putExtra("codigo", Integer.parseInt(codigo));
+                i.putExtra("nombre", nombre);
+                i.putExtra("existencia", Integer.parseInt(existencia));
+                startActivity(i);
+            } else{
+                Toast.makeText(getApplicationContext(),"Debe llenar las casillas codigo ó existencia", Toast.LENGTH_SHORT).show();
+            }
+        } else {Toast.makeText(getApplicationContext(),"El código del producto no existe", Toast.LENGTH_SHORT).show();}
     }
+
+    public void volverViewInv(View view){
+        Intent intent= new Intent(this,View_inventario.class);
+        startActivity(intent);
+    }
+
 
 }

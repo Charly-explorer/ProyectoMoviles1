@@ -22,6 +22,7 @@
     <string name="Descripcion">Descripcion</string>
     <string name="Categoria">Categoria</string>
     <string name="gestinar_Inv">Gestionar invetario</string>
+    <string name="volver">Volver</string>
     <string name="gestinar_prod">Gestionar productos</string>
     <string name="regresar">Regresar</string>
 </resources>

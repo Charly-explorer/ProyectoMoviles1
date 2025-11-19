@@ -27,7 +27,6 @@ public class AdminDB extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase db) {
 
-        // ========= TABLAS ========= //
 
         db.execSQL("CREATE TABLE Categorias (" +
                 "id INTEGER PRIMARY KEY AUTOINCREMENT, " +
@@ -74,9 +73,7 @@ public class AdminDB extends SQLiteOpenHelper {
                 "FOREIGN KEY(idUsuario) REFERENCES Usuarios(id), " +
                 "FOREIGN KEY(codigoProveedor) REFERENCES Proveedores(codigo))");
 
-        // ========= TRIGGERS ========= //
 
-        // 1️⃣ Trigger: Si las existencias bajan a 0 → estado = 0 (no mostrar)
         db.execSQL("CREATE TRIGGER trg_inventario_cero " +
                 "AFTER UPDATE ON Inventario " +
                 "FOR EACH ROW " +
@@ -85,9 +82,8 @@ public class AdminDB extends SQLiteOpenHelper {
                 "   UPDATE Inventario SET estado = 0 WHERE id = NEW.id; " +
                 "END;");
 
-        // 2️⃣ (Opcional) Si las existencias suben a más de 0 → estado = 1
         db.execSQL("CREATE TRIGGER trg_inventario_disponible " +
-                "AFTER UPDATE ON Inventario " +
+                "AFTER UPDATE OF existencias ON Inventario " +
                 "FOR EACH ROW " +
                 "WHEN NEW.existencias > 0 " +
                 "BEGIN " +
@@ -102,8 +98,6 @@ public class AdminDB extends SQLiteOpenHelper {
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-
-
         onCreate(db);
     }
 
@@ -152,6 +146,31 @@ public class AdminDB extends SQLiteOpenHelper {
         return lista;
     }
 
+    public Inventario obtenerProductoInventario(int codigoPro) {
+        Inventario pro = null;
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery(
+                "SELECT Inv.id, Inv.codigoProducto, P.nombre, Inv.existencias, Inv.estado " +
+                        "FROM Inventario Inv " +
+                        "INNER JOIN Productos P ON P.codigo = Inv.codigoProducto " +
+                        "WHERE Inv.codigoProducto = ?",
+                new String[]{ String.valueOf(codigoPro) }
+        );
+
+        if (cursor.moveToFirst()) {
+            pro = new Inventario(
+                    cursor.getInt(0),
+                    cursor.getInt(1),
+                    cursor.getString(2),
+                    cursor.getInt(3),
+                    parseTinyitToBool(cursor.getInt(4))
+            );
+        }
+
+        cursor.close();
+        return pro;
+    }
+
     public boolean parseTinyitToBool(int num){
         if (num ==1) return true;
         return  false;
@@ -165,10 +184,10 @@ public class AdminDB extends SQLiteOpenHelper {
         );
         Integer esAdmin = null;
         if (cursor.moveToFirst()) {
-            esAdmin = cursor.getInt(0); // 1 pa admin, 0 para usuario normal
+            esAdmin = cursor.getInt(0);
         }
         cursor.close();
-        return esAdmin;  // no exite el user o la password o estan incorrectas
+        return esAdmin;
     }
 
     public void guardarOActualizarInventario(int codigoProducto, int existencias, boolean estado) {
