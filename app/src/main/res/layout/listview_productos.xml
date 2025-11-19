@@ -4,9 +4,6 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="horizontal">
-
-
-
     <LinearLayout
         android:layout_width="0dp"
         android:layout_height="80dp"
@@ -25,7 +22,7 @@
                 android:layout_height="match_parent"
                 android:layout_weight="50"
                 android:gravity="center|left"
-                android:text="Codigo" />
+                android:text="@string/label_codigo" />
 
             <TextView
                 android:id="@+id/textViewNombre"
@@ -33,7 +30,7 @@
                 android:layout_height="match_parent"
                 android:layout_weight="50"
                 android:gravity="center|left"
-                android:text="Nombre"/>
+                android:text="@string/label_nombre"/>
 
         </LinearLayout>
 
@@ -43,7 +40,7 @@
             android:layout_height="match_parent"
             android:layout_weight="50"
             android:gravity="center|left"
-            android:text="Descripcion" />
+            android:text="@string/Descripcion" />
     </LinearLayout>
 
 </LinearLayout>

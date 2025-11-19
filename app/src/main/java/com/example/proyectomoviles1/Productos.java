@@ -35,7 +35,7 @@ public class Productos extends AppCompatActivity {
             return insets;
         });
         this.txtBuscador = (EditText) findViewById(R.id.txtnombre);
-        db = new AdminDB(this, "UTN", null, 1);
+        db = new AdminDB(this, "InventarioDB", null, 1);
         SQLiteDatabase bd = db.getWritableDatabase();
 
         Cursor c = bd.rawQuery("SELECT COUNT(*) FROM Categorias", null);
@@ -73,8 +73,7 @@ public class Productos extends AppCompatActivity {
         startActivity(intent);
     }
     public void Regresar(View view){
-        Intent intent= new Intent(this,menu_principal.class);
-        startActivity(intent);
+        finish();
     }
     private void buscarProducto(String texto) {
         ArrayList<Producto> filtrada = new ArrayList<>();

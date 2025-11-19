@@ -9,13 +9,22 @@ import android.database.sqlite.SQLiteOpenHelper;
 
 import androidx.annotation.Nullable;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 public class AdminDB extends SQLiteOpenHelper {
 
+    // Incrementamos la versión para forzar la actualización de la BD
+    private static final int DATABASE_VERSION = 2;
+    private Context context;
+
     public AdminDB(@Nullable Context context, @Nullable String name, @Nullable SQLiteDatabase.CursorFactory factory, int version) {
-        super(context, name, factory, version);
+        // Ignoramos el parámetro 'version' y usamos nuestra constante para asegurar que todos usen la misma
+        super(context, name, factory, DATABASE_VERSION);
+        this.context = context;
     }
 
     @Override
@@ -76,7 +85,6 @@ public class AdminDB extends SQLiteOpenHelper {
 
         // ========= TRIGGERS ========= //
 
-        // 1️⃣ Trigger: Si las existencias bajan a 0 → estado = 0 (no mostrar)
         db.execSQL("CREATE TRIGGER trg_inventario_cero " +
                 "AFTER UPDATE ON Inventario " +
                 "FOR EACH ROW " +
@@ -85,7 +93,6 @@ public class AdminDB extends SQLiteOpenHelper {
                 "   UPDATE Inventario SET estado = 0 WHERE id = NEW.id; " +
                 "END;");
 
-        // 2️⃣ (Opcional) Si las existencias suben a más de 0 → estado = 1
         db.execSQL("CREATE TRIGGER trg_inventario_disponible " +
                 "AFTER UPDATE ON Inventario " +
                 "FOR EACH ROW " +
@@ -94,16 +101,22 @@ public class AdminDB extends SQLiteOpenHelper {
                 "   UPDATE Inventario SET estado = 1 WHERE id = NEW.id; " +
                 "END;");
 
-
+        // Insertar usuario Admin por defecto
         db.execSQL("INSERT INTO Usuarios (nombre, apellido, apellido2, correo, contrasena, esAdmin) " +
                 "VALUES ('Admin', '', '', 'admin@admin.com', 'admin123', 1)");
-
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-
-
+        // Eliminar tablas antiguas si existen
+        db.execSQL("DROP TABLE IF EXISTS MovimientosInventario");
+        db.execSQL("DROP TABLE IF EXISTS Proveedores");
+        db.execSQL("DROP TABLE IF EXISTS Inventario");
+        db.execSQL("DROP TABLE IF EXISTS Productos");
+        db.execSQL("DROP TABLE IF EXISTS Categorias");
+        db.execSQL("DROP TABLE IF EXISTS Usuarios");
+        
+        // Volver a crear todo
         onCreate(db);
     }
 
@@ -171,8 +184,26 @@ public class AdminDB extends SQLiteOpenHelper {
         return esAdmin;  // no exite el user o la password o estan incorrectas
     }
 
+    public long insertarUsuario(String nombre, String apellido, String apellido2,
+                                String correo, String contrasena, int esAdmin) {
+
+        SQLiteDatabase db = this.getWritableDatabase();
+        android.content.ContentValues values = new android.content.ContentValues();
+        values.put("nombre", nombre);
+        values.put("apellido", apellido);
+        values.put("apellido2", apellido2);
+        values.put("correo", correo);
+        values.put("contrasena", contrasena);
+        values.put("esAdmin", esAdmin);
+        return db.insert("Usuarios", null, values);
+    }
+
+
     public void guardarOActualizarInventario(int codigoProducto, int existencias, boolean estado) {
         SQLiteDatabase db = this.getWritableDatabase();
+        long idInventario = -1;
+
+        // 1. Verificar si ya existe en inventario
         Cursor cInv = db.rawQuery(
                 "SELECT id FROM Inventario WHERE codigoProducto = ?",
                 new String[]{ String.valueOf(codigoProducto) }
@@ -183,7 +214,11 @@ public class AdminDB extends SQLiteOpenHelper {
         valuesInv.put("existencias", existencias);
         valuesInv.put("estado", estado ? 1 : 0);
 
+        boolean esNuevo = false;
+
         if (cInv.moveToFirst()) {
+            // Actualizar
+            idInventario = cInv.getLong(0);
             db.update(
                     "Inventario",
                     valuesInv,
@@ -191,10 +226,49 @@ public class AdminDB extends SQLiteOpenHelper {
                     new String[]{ String.valueOf(codigoProducto) }
             );
         } else {
-            db.insert("Inventario", null, valuesInv);
+            // Insertar
+            esNuevo = true;
+            idInventario = db.insert("Inventario", null, valuesInv);
         }
-
         cInv.close();
+
+        // 2. Registrar el Movimiento en MovimientosInventario
+        // NOTA: Asumimos usuario ID = 1 (Admin) porque no se pasa el ID del usuario logueado.
+        if (idInventario != -1) {
+            ContentValues valuesMov = new ContentValues();
+            valuesMov.put("idInventario", idInventario);
+            valuesMov.put("idUsuario", 1); // Usuario por defecto
+            
+            String fechaActual = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault()).format(new Date());
+            valuesMov.put("fecha", fechaActual);
+            
+            if (esNuevo) {
+                // Usar strings traducidos si es posible
+                String mov = "ALTA";
+                String det = "Inventario inicial: " + existencias;
+                
+                if (context != null) {
+                    mov = context.getString(R.string.movimiento_alta);
+                    det = context.getString(R.string.inventario_inicial) + existencias;
+                }
+                
+                valuesMov.put("movimiento", mov);
+                valuesMov.put("detalle", det);
+            } else {
+                String mov = "ACTUALIZACION";
+                String det = "Ajuste de existencias a: " + existencias;
+
+                if (context != null) {
+                    mov = context.getString(R.string.movimiento_actualizacion);
+                    det = context.getString(R.string.ajuste_existencias) + existencias;
+                }
+
+                valuesMov.put("movimiento", mov);
+                valuesMov.put("detalle", det);
+            }
+            
+            db.insert("MovimientosInventario", null, valuesMov);
+        }
     }
     public void guardarOActualizarProducto(int codigoProducto, String nombre, int idCategoria, String descripcion ) {
         SQLiteDatabase db = this.getWritableDatabase();
@@ -233,7 +307,32 @@ public class AdminDB extends SQLiteOpenHelper {
                 new String[]{ String.valueOf(idInventario) }
         );
     }
+    public ArrayList<Movimiento> obtenerMovimientos() {
+        ArrayList<Movimiento> lista = new ArrayList<>();
+        SQLiteDatabase db = this.getReadableDatabase();
+
+        String sql = "SELECT M.id, P.nombre, M.fecha, M.movimiento, M.detalle " +
+                "FROM MovimientosInventario M " +
+                "INNER JOIN Inventario I ON M.idInventario = I.id " +
+                "INNER JOIN Productos P ON I.codigoProducto = P.codigo " +
+                "ORDER BY M.fecha DESC, M.id DESC";
+
+        Cursor cursor = db.rawQuery(sql, null);
+
+        if (cursor.moveToFirst()) {
+            do {
+                int id = cursor.getInt(0);
+                String nombreProducto = cursor.getString(1);
+                String fecha = cursor.getString(2);
+                String tipo = cursor.getString(3);
+                String detalle = cursor.getString(4);
+
+                Movimiento mov = new Movimiento(id, nombreProducto, fecha, tipo, detalle);
+                lista.add(mov);
+            } while (cursor.moveToNext());
+        }
+
+        cursor.close();
+        return lista;
+    }
 }
-
-
-

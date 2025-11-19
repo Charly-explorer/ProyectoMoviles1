@@ -45,7 +45,7 @@ public class View_AgregarProducto extends AppCompatActivity {
         this.txtCodeInv = (EditText) findViewById(R.id.txtNombre);
         this.txtNameInv = (EditText) findViewById(R.id.txtDescripcion);
         this.spCategoria = (Spinner) findViewById(R.id.spCategoria);
-        db = new AdminDB(this, "UTN", null, 1);
+        db = new AdminDB(this, "InventarioDB", null, 1);
         SQLiteDatabase bd = db.getWritableDatabase();
 
 
@@ -175,8 +175,7 @@ public class View_AgregarProducto extends AppCompatActivity {
     }
 
     public void Regresar(View view){
-        Intent intent= new Intent(this,Productos.class);
-        startActivity(intent);
+        finish();
     }
 
 

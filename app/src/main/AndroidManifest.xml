@@ -12,6 +12,13 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.ProyectoMoviles1">
         <activity
+            android:name=".activity_movimientos"
+            android:exported="false" />
+        <activity
+            android:name=".Crearusuarios"
+            android:exported="false"
+            tools:ignore="Instantiatable" />
+        <activity
             android:name=".View_add_inventario"
             android:exported="false" />
         <activity

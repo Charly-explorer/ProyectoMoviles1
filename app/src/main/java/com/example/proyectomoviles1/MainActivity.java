@@ -32,29 +32,30 @@ public class MainActivity extends AppCompatActivity {
         etPassword = findViewById(R.id.etPassword);
         btnLogin = findViewById(R.id.btnLogin);
         adminDB = new AdminDB(this, "InventarioDB", null, 1);
+
     }
 
     public void onLoginClick(View view) {
         String correo = etUsuario.getText().toString().trim();
         String pass = etPassword.getText().toString().trim();
+
         if (correo.isEmpty() || pass.isEmpty()) {
             Toast.makeText(MainActivity.this, "Llena todos los campos", Toast.LENGTH_SHORT).show();
             return;
         }
-        Integer esAdmin = adminDB.loginUsuario(correo, pass);
 
+        Integer esAdmin = adminDB.loginUsuario(correo, pass);
         if (esAdmin == null) {
             Toast.makeText(MainActivity.this, "Correo o contraseña incorrectos", Toast.LENGTH_SHORT).show();
         } else {
-            if (esAdmin == 1) {
-                Intent intent = new Intent(MainActivity.this, menu_principal.class);
-                startActivity(intent);
-                finish();
-            } else {
-                Toast.makeText(MainActivity.this, "Login como USUARIO", Toast.LENGTH_SHORT).show();
-            }
+            // AQUÍ: tanto admin como usuario van al menú
+            Intent intent = new Intent(MainActivity.this, menu_principal.class);
+            intent.putExtra("esAdmin", esAdmin);   // 1 = admin, 0 = usuario
+            startActivity(intent);
+            finish();
         }
     }
+
 
     public void Siguiente(View view){
         Intent intent= new Intent(this,menu_principal.class);

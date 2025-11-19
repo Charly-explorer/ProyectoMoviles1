@@ -40,7 +40,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:ems="10"
-            android:hint="Nombre producto"
+            android:hint="@string/texto_buscar_producto"
             android:inputType="text" />
 
     </LinearLayout>
@@ -68,7 +68,7 @@
             android:editable="true"
             android:ems="10"
             android:enabled="true"
-            android:hint="Descripcion"
+            android:hint="@string/texto_descripcion"
             android:inputType="text" />
     </LinearLayout>
 

@@ -40,42 +40,43 @@ public class View_inventario extends AppCompatActivity {
             return insets;
         });
         this.txtBuscador = (EditText) findViewById(R.id.txtcodInv);
-        db = new AdminDB(this, "UTN", null, 1);
+        db = new AdminDB(this, "InventarioDB", null, 1);
         SQLiteDatabase bd = db.getWritableDatabase();
 
+        // 1. Asegurar que exista al menos una categoría
         Cursor c = bd.rawQuery("SELECT COUNT(*) FROM Categorias", null);
-
         if (c.moveToFirst()) {
             int count = c.getInt(0);
             if (count == 0) {
                 bd.execSQL("INSERT INTO Categorias(nombre) VALUES('Prueba')");
                 bd.execSQL("INSERT INTO Productos(nombre, idCategoria, descripcion) " +
                         "VALUES('Producto Prueba', 1, 'Cargado desde Activity')");
-                bd.execSQL("INSERT INTO Productos(codigo, nombre, idCategoria, descripcion) VALUES(150, 'Bolsa Maíz', 1, 'Producto inicial')");
-                bd.execSQL("INSERT INTO Productos(codigo, nombre, idCategoria, descripcion) VALUES(160, 'Saco de Frijoles', 1, 'Producto inicial')");
-                bd.execSQL("INSERT INTO Productos(codigo, nombre, idCategoria, descripcion) VALUES(170, 'Caja de Papas', 1, 'Producto inicial')");
-
             }
         }
         c.close();
 
-        c = bd.rawQuery("SELECT COUNT(*) FROM Inventario", null);
+        // 2. Asegurar que los productos necesarios para el inventario de prueba existan
+        // Usamos INSERT OR IGNORE para que no falle si ya existen
+        bd.execSQL("INSERT OR IGNORE INTO Productos(codigo, nombre, idCategoria, descripcion) VALUES(150, 'Bolsa Maíz', 1, 'Producto inicial')");
+        bd.execSQL("INSERT OR IGNORE INTO Productos(codigo, nombre, idCategoria, descripcion) VALUES(160, 'Saco de Frijoles', 1, 'Producto inicial')");
+        bd.execSQL("INSERT OR IGNORE INTO Productos(codigo, nombre, idCategoria, descripcion) VALUES(170, 'Caja de Papas', 1, 'Producto inicial')");
 
+
+        // 3. Insertar datos de prueba en Inventario si está vacío
+        c = bd.rawQuery("SELECT COUNT(*) FROM Inventario", null);
         if (c.moveToFirst()) {
             int count = c.getInt(0);
             if (count == 0) {
-
-                bd.execSQL("INSERT INTO Inventario(codigoProducto, existencias, estado) " +
-                        "VALUES(150, 10, 1)");
-
-                bd.execSQL("INSERT INTO Inventario(codigoProducto, existencias, estado) " +
-                        "VALUES(160, 5, 1)");
-
-                bd.execSQL("INSERT INTO Inventario(codigoProducto, existencias, estado) " +
-                        "VALUES(170, 4, 0)");
+                bd.execSQL("INSERT INTO Inventario(codigoProducto, existencias, estado) VALUES(150, 10, 1)");
+                bd.execSQL("INSERT INTO Inventario(codigoProducto, existencias, estado) VALUES(160, 5, 1)");
+                bd.execSQL("INSERT INTO Inventario(codigoProducto, existencias, estado) VALUES(170, 4, 0)");
+                
+                // Opcional: Registrar estos movimientos iniciales también si se desea, 
+                // pero como es carga directa por SQL, los triggers/código no los registran en Movimientos.
             }
         }
         c.close();
+
         this.lista = new ArrayList<>();
         this.listViewInventario = findViewById(R.id.listViewInv);
 
@@ -90,7 +91,6 @@ public class View_inventario extends AppCompatActivity {
             String nombre = i.getStringExtra("nombre");
             int existencia = i.getIntExtra("existencia", 0);
             if(codigo >0 && !nombre.isEmpty() && existencia >=0){
-                //this.lista.add(new Inventario(0,codigo, nombre,existencia,true));
                 db.guardarOActualizarInventario(codigo, existencia, true);
                 lista = db.obtenerInventario();
                 adapter.updateList(lista);

@@ -39,7 +39,7 @@ public class View_add_inventario extends AppCompatActivity {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
-        db = new AdminDB(this, "UTN", null, 1);
+        db = new AdminDB(this, "InventarioDB", null, 1);
         listViewProductosInv = findViewById(R.id.listViewProductosInv);
         lista = db.obtenerProductos();
         adapter = new CustomAdapterProductos(this, lista);
