@@ -79,7 +79,6 @@ public class View_inventario extends AppCompatActivity {
         this.adapter = new CustomAdapterInventario(this, this.lista);
         this.listViewInventario.setAdapter(adapter);
 
-        // Procesar actualización de inventario desde Intent
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
             Intent i = getIntent();
@@ -115,7 +114,6 @@ public class View_inventario extends AppCompatActivity {
         });
     }
 
-    // Filtrar lista por nombre
     private void filtrarInventario(String texto) {
         ArrayList<Inventario> filtrada = new ArrayList<>();
         for (Inventario inv : this.lista) {
@@ -126,7 +124,6 @@ public class View_inventario extends AppCompatActivity {
         this.adapter.updateList(filtrada);
     }
 
-    // Ocultar items desactivados de la vista
     public void removerInventarioDesactivado(){
         ArrayList<Inventario> newlist = new ArrayList<>();
         for (Inventario inv : lista){
@@ -137,7 +134,6 @@ public class View_inventario extends AppCompatActivity {
         this.adapter.updateList(newlist);
     }
 
-    // Eliminar item seleccionado (desactivación lógica)
     public void eliminar(View v){
         if (itemseleccionado >= 0)
         {
@@ -163,7 +159,8 @@ public class View_inventario extends AppCompatActivity {
     }
 
     public void volverMenu(View view){
-        finish();
+        Intent intent= new Intent(this,menu_principal.class);
+        startActivity(intent);
     }
 
 }
