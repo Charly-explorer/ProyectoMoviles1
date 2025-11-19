@@ -188,6 +188,15 @@ public class AdminDB extends SQLiteOpenHelper {
         return pro;
     }
 
+    // Método para verificar si un código de producto existe en la tabla Productos
+    public boolean existeProducto(int codigoProducto) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery("SELECT 1 FROM Productos WHERE codigo = ?", new String[]{String.valueOf(codigoProducto)});
+        boolean existe = cursor.moveToFirst();
+        cursor.close();
+        return existe;
+    }
+
     public boolean parseTinyitToBool(int num){
         if (num ==1) return true;
         return  false;

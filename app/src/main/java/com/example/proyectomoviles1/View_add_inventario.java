@@ -94,6 +94,9 @@ public class View_add_inventario extends AppCompatActivity {
             Inventario inv = db.obtenerProductoInventario(pro.code);
             if(inv !=null){
                 txtExistenciaInv.setText(String.valueOf(inv.getExistencia()));
+            } else {
+                // Si no tiene inventario, se puede limpiar el campo o poner 0
+                txtExistenciaInv.setText("");
             }
             txtCodigoPro.setEnabled(false);
             itemseleccionado = -1;
@@ -108,9 +111,14 @@ public class View_add_inventario extends AppCompatActivity {
         String codigo = txtCodigoPro.getText().toString();
         String nombre = txtNombrePro.getText().toString();
         String existencia = txtExistenciaInv.getText().toString();
-        Inventario inv = db.obtenerProductoInventario(Integer.parseInt(codigo));
-        if(inv !=null){
-            txtNombrePro.setText(inv.getNombreProducto());
+        
+        // Aquí verificamos si el producto existe, no si ya tiene inventario.
+        // Porque si es nuevo en inventario, obtenerProductoInventario devuelve null, pero sí queremos agregarlo.
+        
+        boolean existeProducto = db.existeProducto(Integer.parseInt(codigo));
+
+        if(existeProducto){
+            // El producto existe en la tabla Productos, podemos proceder a crear o actualizar su inventario
             if(!codigo.isEmpty() && !existencia.isEmpty()){
                 Intent i = new Intent(View_add_inventario.this, View_inventario.class);
                 i.putExtra("codigo", Integer.parseInt(codigo));
@@ -120,7 +128,9 @@ public class View_add_inventario extends AppCompatActivity {
             } else{
                 Toast.makeText(getApplicationContext(),"Debe llenar las casillas codigo ó existencia", Toast.LENGTH_SHORT).show();
             }
-        } else {Toast.makeText(getApplicationContext(),"El código del producto no existe", Toast.LENGTH_SHORT).show();}
+        } else {
+             Toast.makeText(getApplicationContext(),"El código del producto no existe", Toast.LENGTH_SHORT).show();
+        }
     }
 
     public void volverViewInv(View view){

@@ -57,26 +57,28 @@
 
         <Button
             android:id="@+id/btnAgregarInv"
-            android:layout_width="123dp"
+            android:layout_width="100dp"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="10dp"
+            android:layout_marginEnd="5dp"
             android:onClick="viewEditInv"
-            android:text="@string/gestinar_Inv" />
+            android:text="@string/gestinar_Inv"
+            android:textSize="12sp"/>
 
         <Button
             android:id="@+id/btnEliminarInv"
-            android:layout_width="123dp"
+            android:layout_width="100dp"
             android:layout_height="wrap_content"
             android:onClick="eliminar"
-            android:text="@string/btn_eliminar" />
-
+            android:text="@string/btn_eliminar"
+            android:textSize="12sp"/>
         <Button
             android:id="@+id/button4"
-            android:layout_width="wrap_content"
+            android:layout_width="100dp"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
+            android:layout_weight="0"
             android:onClick="volverMenu"
-            android:text="@string/regresar" />
+            android:text="@string/regresar"
+            android:textSize="12sp" />
 
     </LinearLayout>
 

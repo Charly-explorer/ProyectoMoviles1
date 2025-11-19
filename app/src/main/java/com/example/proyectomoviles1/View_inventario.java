@@ -165,8 +165,7 @@ public class View_inventario extends AppCompatActivity {
     }
 
     public void volverMenu(View view){
-        Intent intent= new Intent(this,menu_principal.class);
-        startActivity(intent);
+        finish();
     }
 
 }
