@@ -17,12 +17,10 @@ import java.util.Locale;
 
 public class AdminDB extends SQLiteOpenHelper {
 
-    // Incrementamos la versión para forzar la actualización de la BD
     private static final int DATABASE_VERSION = 2;
     private Context context;
 
     public AdminDB(@Nullable Context context, @Nullable String name, @Nullable SQLiteDatabase.CursorFactory factory, int version) {
-        // Ignoramos el parámetro 'version' y usamos nuestra constante para asegurar que todos usen la misma
         super(context, name, factory, DATABASE_VERSION);
         this.context = context;
     }
@@ -35,8 +33,7 @@ public class AdminDB extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-
-
+        // Creación de tablas
         db.execSQL("CREATE TABLE Categorias (" +
                 "id INTEGER PRIMARY KEY AUTOINCREMENT, " +
                 "nombre TEXT NOT NULL)");
@@ -82,7 +79,7 @@ public class AdminDB extends SQLiteOpenHelper {
                 "FOREIGN KEY(idUsuario) REFERENCES Usuarios(id), " +
                 "FOREIGN KEY(codigoProveedor) REFERENCES Proveedores(codigo))");
 
-
+        // Triggers para actualizar estado del inventario
         db.execSQL("CREATE TRIGGER trg_inventario_cero " +
                 "AFTER UPDATE ON Inventario " +
                 "FOR EACH ROW " +
@@ -99,14 +96,14 @@ public class AdminDB extends SQLiteOpenHelper {
                 "   UPDATE Inventario SET estado = 1 WHERE id = NEW.id; " +
                 "END;");
 
-        // Insertar usuario Admin por defecto
+        // Usuario administrador por defecto
         db.execSQL("INSERT INTO Usuarios (nombre, apellido, apellido2, correo, contrasena, esAdmin) " +
                 "VALUES ('Admin', '', '', 'admin@admin.com', 'admin123', 1)");
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-        // Eliminar tablas antiguas si existen
+        // Reiniciar base de datos al actualizar versión
         db.execSQL("DROP TABLE IF EXISTS MovimientosInventario");
         db.execSQL("DROP TABLE IF EXISTS Proveedores");
         db.execSQL("DROP TABLE IF EXISTS Inventario");
@@ -114,10 +111,10 @@ public class AdminDB extends SQLiteOpenHelper {
         db.execSQL("DROP TABLE IF EXISTS Categorias");
         db.execSQL("DROP TABLE IF EXISTS Usuarios");
         
-        // Volver a crear todo
         onCreate(db);
     }
 
+    // Obtiene la lista de productos con su categoría
     public ArrayList<Producto> obtenerProductos() {
         ArrayList<Producto> lista = new ArrayList<>();
         SQLiteDatabase db = this.getReadableDatabase();
@@ -140,6 +137,7 @@ public class AdminDB extends SQLiteOpenHelper {
         return lista;
     }
 
+    // Obtiene la lista de inventario activo
     public ArrayList<Inventario> obtenerInventario() {
         ArrayList<com.example.proyectomoviles1.Inventario> lista = new ArrayList<>();
         SQLiteDatabase db = this.getReadableDatabase();
@@ -163,6 +161,7 @@ public class AdminDB extends SQLiteOpenHelper {
         return lista;
     }
 
+    // Busca información de inventario de un producto específico
     public Inventario obtenerProductoInventario(int codigoPro) {
         Inventario pro = null;
         SQLiteDatabase db = this.getReadableDatabase();
@@ -188,7 +187,7 @@ public class AdminDB extends SQLiteOpenHelper {
         return pro;
     }
 
-    // Método para verificar si un código de producto existe en la tabla Productos
+    // Verifica si un producto existe
     public boolean existeProducto(int codigoProducto) {
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor cursor = db.rawQuery("SELECT 1 FROM Productos WHERE codigo = ?", new String[]{String.valueOf(codigoProducto)});
@@ -197,11 +196,12 @@ public class AdminDB extends SQLiteOpenHelper {
         return existe;
     }
 
+    // Convierte entero a booleano
     public boolean parseTinyitToBool(int num){
-        if (num ==1) return true;
-        return  false;
+        return num == 1;
     }
 
+    // Valida credenciales de usuario
     public Integer loginUsuario(String correo, String contrasena) {
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor cursor = db.rawQuery(
@@ -216,6 +216,7 @@ public class AdminDB extends SQLiteOpenHelper {
         return esAdmin;
     }
 
+    // Registra un nuevo usuario
     public long insertarUsuario(String nombre, String apellido, String apellido2,
                                 String correo, String contrasena, int esAdmin) {
 
@@ -230,12 +231,11 @@ public class AdminDB extends SQLiteOpenHelper {
         return db.insert("Usuarios", null, values);
     }
 
-
+    // Guarda o actualiza inventario y registra el movimiento
     public void guardarOActualizarInventario(int codigoProducto, int existencias, boolean estado) {
         SQLiteDatabase db = this.getWritableDatabase();
         long idInventario = -1;
 
-        // 1. Verificar si ya existe en inventario
         Cursor cInv = db.rawQuery(
                 "SELECT id FROM Inventario WHERE codigoProducto = ?",
                 new String[]{ String.valueOf(codigoProducto) }
@@ -249,7 +249,6 @@ public class AdminDB extends SQLiteOpenHelper {
         boolean esNuevo = false;
 
         if (cInv.moveToFirst()) {
-            // Actualizar
             idInventario = cInv.getLong(0);
             db.update(
                     "Inventario",
@@ -258,24 +257,20 @@ public class AdminDB extends SQLiteOpenHelper {
                     new String[]{ String.valueOf(codigoProducto) }
             );
         } else {
-            // Insertar
             esNuevo = true;
             idInventario = db.insert("Inventario", null, valuesInv);
         }
         cInv.close();
 
-        // 2. Registrar el Movimiento en MovimientosInventario
-        // NOTA: Asumimos usuario ID = 1 (Admin) porque no se pasa el ID del usuario logueado.
         if (idInventario != -1) {
             ContentValues valuesMov = new ContentValues();
             valuesMov.put("idInventario", idInventario);
-            valuesMov.put("idUsuario", 1); // Usuario por defecto
+            valuesMov.put("idUsuario", 1);
             
             String fechaActual = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault()).format(new Date());
             valuesMov.put("fecha", fechaActual);
             
             if (esNuevo) {
-                // Usar strings traducidos si es posible
                 String mov = "ALTA";
                 String det = "Inventario inicial: " + existencias;
                 
@@ -302,6 +297,8 @@ public class AdminDB extends SQLiteOpenHelper {
             db.insert("MovimientosInventario", null, valuesMov);
         }
     }
+
+    // Guarda o actualiza un producto
     public void guardarOActualizarProducto(int codigoProducto, String nombre, int idCategoria, String descripcion ) {
         SQLiteDatabase db = this.getWritableDatabase();
         Cursor cInv = db.rawQuery(
@@ -328,6 +325,7 @@ public class AdminDB extends SQLiteOpenHelper {
         cInv.close();
     }
 
+    // Desactiva un registro de inventario (borrado lógico)
     public void desactivarInventarioPorId(int idInventario) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
@@ -339,6 +337,8 @@ public class AdminDB extends SQLiteOpenHelper {
                 new String[]{ String.valueOf(idInventario) }
         );
     }
+
+    // Obtiene el historial de movimientos
     public ArrayList<Movimiento> obtenerMovimientos() {
         ArrayList<Movimiento> lista = new ArrayList<>();
         SQLiteDatabase db = this.getReadableDatabase();

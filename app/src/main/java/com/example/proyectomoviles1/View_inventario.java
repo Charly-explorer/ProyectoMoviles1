@@ -43,7 +43,7 @@ public class View_inventario extends AppCompatActivity {
         db = new AdminDB(this, "InventarioDB", null, 1);
         SQLiteDatabase bd = db.getWritableDatabase();
 
-        // 1. Asegurar que exista al menos una categoría
+        // Inicializar categorías y productos de prueba si no existen
         Cursor c = bd.rawQuery("SELECT COUNT(*) FROM Categorias", null);
         if (c.moveToFirst()) {
             int count = c.getInt(0);
@@ -55,14 +55,12 @@ public class View_inventario extends AppCompatActivity {
         }
         c.close();
 
-        // 2. Asegurar que los productos necesarios para el inventario de prueba existan
-        // Usamos INSERT OR IGNORE para que no falle si ya existen
+        // Asegurar productos base
         bd.execSQL("INSERT OR IGNORE INTO Productos(codigo, nombre, idCategoria, descripcion) VALUES(150, 'Bolsa Maíz', 1, 'Producto inicial')");
         bd.execSQL("INSERT OR IGNORE INTO Productos(codigo, nombre, idCategoria, descripcion) VALUES(160, 'Saco de Frijoles', 1, 'Producto inicial')");
         bd.execSQL("INSERT OR IGNORE INTO Productos(codigo, nombre, idCategoria, descripcion) VALUES(170, 'Caja de Papas', 1, 'Producto inicial')");
 
-
-        // 3. Insertar datos de prueba en Inventario si está vacío
+        // Inicializar inventario de prueba
         c = bd.rawQuery("SELECT COUNT(*) FROM Inventario", null);
         if (c.moveToFirst()) {
             int count = c.getInt(0);
@@ -70,9 +68,6 @@ public class View_inventario extends AppCompatActivity {
                 bd.execSQL("INSERT INTO Inventario(codigoProducto, existencias, estado) VALUES(150, 10, 1)");
                 bd.execSQL("INSERT INTO Inventario(codigoProducto, existencias, estado) VALUES(160, 5, 1)");
                 bd.execSQL("INSERT INTO Inventario(codigoProducto, existencias, estado) VALUES(170, 4, 0)");
-                
-                // Opcional: Registrar estos movimientos iniciales también si se desea, 
-                // pero como es carga directa por SQL, los triggers/código no los registran en Movimientos.
             }
         }
         c.close();
@@ -84,6 +79,7 @@ public class View_inventario extends AppCompatActivity {
         this.adapter = new CustomAdapterInventario(this, this.lista);
         this.listViewInventario.setAdapter(adapter);
 
+        // Procesar actualización de inventario desde Intent
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
             Intent i = getIntent();
@@ -119,6 +115,7 @@ public class View_inventario extends AppCompatActivity {
         });
     }
 
+    // Filtrar lista por nombre
     private void filtrarInventario(String texto) {
         ArrayList<Inventario> filtrada = new ArrayList<>();
         for (Inventario inv : this.lista) {
@@ -129,6 +126,7 @@ public class View_inventario extends AppCompatActivity {
         this.adapter.updateList(filtrada);
     }
 
+    // Ocultar items desactivados de la vista
     public void removerInventarioDesactivado(){
         ArrayList<Inventario> newlist = new ArrayList<>();
         for (Inventario inv : lista){
@@ -139,12 +137,12 @@ public class View_inventario extends AppCompatActivity {
         this.adapter.updateList(newlist);
     }
 
+    // Eliminar item seleccionado (desactivación lógica)
     public void eliminar(View v){
         if (itemseleccionado >= 0)
         {
             Inventario inv = (Inventario) adapter.getItem(itemseleccionado);
             db.desactivarInventarioPorId(inv.getIdInv());
-            //Toast.makeText(getApplicationContext(),String.valueOf(inv.getCodigoProducto()), Toast.LENGTH_SHORT).show();
             View itemresaltado = listViewInventario.getChildAt(itemseleccionado);
             if (itemresaltado != null) {
                 itemresaltado.setBackgroundColor(0);
