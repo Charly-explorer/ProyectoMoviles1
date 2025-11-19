@@ -76,7 +76,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:onClick="volverMenu"
-            android:text="@string/volver" />
+            android:text="@string/regresar" />
 
     </LinearLayout>
 
