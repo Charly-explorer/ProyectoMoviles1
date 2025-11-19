@@ -33,7 +33,6 @@ public class AdminDB extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        // Creación de tablas
         db.execSQL("CREATE TABLE Categorias (" +
                 "id INTEGER PRIMARY KEY AUTOINCREMENT, " +
                 "nombre TEXT NOT NULL)");
@@ -79,7 +78,6 @@ public class AdminDB extends SQLiteOpenHelper {
                 "FOREIGN KEY(idUsuario) REFERENCES Usuarios(id), " +
                 "FOREIGN KEY(codigoProveedor) REFERENCES Proveedores(codigo))");
 
-        // Triggers para actualizar estado del inventario
         db.execSQL("CREATE TRIGGER trg_inventario_cero " +
                 "AFTER UPDATE ON Inventario " +
                 "FOR EACH ROW " +
@@ -96,14 +94,12 @@ public class AdminDB extends SQLiteOpenHelper {
                 "   UPDATE Inventario SET estado = 1 WHERE id = NEW.id; " +
                 "END;");
 
-        // Usuario administrador por defecto
         db.execSQL("INSERT INTO Usuarios (nombre, apellido, apellido2, correo, contrasena, esAdmin) " +
                 "VALUES ('Admin', '', '', 'admin@admin.com', 'admin123', 1)");
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-        // Reiniciar base de datos al actualizar versión
         db.execSQL("DROP TABLE IF EXISTS MovimientosInventario");
         db.execSQL("DROP TABLE IF EXISTS Proveedores");
         db.execSQL("DROP TABLE IF EXISTS Inventario");
@@ -114,7 +110,6 @@ public class AdminDB extends SQLiteOpenHelper {
         onCreate(db);
     }
 
-    // Obtiene la lista de productos con su categoría
     public ArrayList<Producto> obtenerProductos() {
         ArrayList<Producto> lista = new ArrayList<>();
         SQLiteDatabase db = this.getReadableDatabase();
@@ -137,7 +132,6 @@ public class AdminDB extends SQLiteOpenHelper {
         return lista;
     }
 
-    // Obtiene la lista de inventario activo
     public ArrayList<Inventario> obtenerInventario() {
         ArrayList<com.example.proyectomoviles1.Inventario> lista = new ArrayList<>();
         SQLiteDatabase db = this.getReadableDatabase();
@@ -161,7 +155,6 @@ public class AdminDB extends SQLiteOpenHelper {
         return lista;
     }
 
-    // Busca información de inventario de un producto específico
     public Inventario obtenerProductoInventario(int codigoPro) {
         Inventario pro = null;
         SQLiteDatabase db = this.getReadableDatabase();
@@ -187,7 +180,6 @@ public class AdminDB extends SQLiteOpenHelper {
         return pro;
     }
 
-    // Verifica si un producto existe
     public boolean existeProducto(int codigoProducto) {
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor cursor = db.rawQuery("SELECT 1 FROM Productos WHERE codigo = ?", new String[]{String.valueOf(codigoProducto)});
@@ -196,12 +188,10 @@ public class AdminDB extends SQLiteOpenHelper {
         return existe;
     }
 
-    // Convierte entero a booleano
     public boolean parseTinyitToBool(int num){
         return num == 1;
     }
 
-    // Valida credenciales de usuario
     public Integer loginUsuario(String correo, String contrasena) {
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor cursor = db.rawQuery(
@@ -216,7 +206,6 @@ public class AdminDB extends SQLiteOpenHelper {
         return esAdmin;
     }
 
-    // Registra un nuevo usuario
     public long insertarUsuario(String nombre, String apellido, String apellido2,
                                 String correo, String contrasena, int esAdmin) {
 
@@ -231,7 +220,6 @@ public class AdminDB extends SQLiteOpenHelper {
         return db.insert("Usuarios", null, values);
     }
 
-    // Guarda o actualiza inventario y registra el movimiento
     public void guardarOActualizarInventario(int codigoProducto, int existencias, boolean estado) {
         SQLiteDatabase db = this.getWritableDatabase();
         long idInventario = -1;
@@ -297,8 +285,6 @@ public class AdminDB extends SQLiteOpenHelper {
             db.insert("MovimientosInventario", null, valuesMov);
         }
     }
-
-    // Guarda o actualiza un producto
     public void guardarOActualizarProducto(int codigoProducto, String nombre, int idCategoria, String descripcion ) {
         SQLiteDatabase db = this.getWritableDatabase();
         Cursor cInv = db.rawQuery(
@@ -325,7 +311,6 @@ public class AdminDB extends SQLiteOpenHelper {
         cInv.close();
     }
 
-    // Desactiva un registro de inventario (borrado lógico)
     public void desactivarInventarioPorId(int idInventario) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
@@ -337,8 +322,6 @@ public class AdminDB extends SQLiteOpenHelper {
                 new String[]{ String.valueOf(idInventario) }
         );
     }
-
-    // Obtiene el historial de movimientos
     public ArrayList<Movimiento> obtenerMovimientos() {
         ArrayList<Movimiento> lista = new ArrayList<>();
         SQLiteDatabase db = this.getReadableDatabase();

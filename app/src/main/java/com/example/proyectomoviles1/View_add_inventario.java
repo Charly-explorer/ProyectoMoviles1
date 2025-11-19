@@ -95,7 +95,6 @@ public class View_add_inventario extends AppCompatActivity {
             if(inv !=null){
                 txtExistenciaInv.setText(String.valueOf(inv.getExistencia()));
             } else {
-                // Si no tiene inventario, se puede limpiar el campo o poner 0
                 txtExistenciaInv.setText("");
             }
             txtCodigoPro.setEnabled(false);
@@ -112,13 +111,9 @@ public class View_add_inventario extends AppCompatActivity {
         String nombre = txtNombrePro.getText().toString();
         String existencia = txtExistenciaInv.getText().toString();
         
-        // Aquí verificamos si el producto existe, no si ya tiene inventario.
-        // Porque si es nuevo en inventario, obtenerProductoInventario devuelve null, pero sí queremos agregarlo.
-        
         boolean existeProducto = db.existeProducto(Integer.parseInt(codigo));
 
         if(existeProducto){
-            // El producto existe en la tabla Productos, podemos proceder a crear o actualizar su inventario
             if(!codigo.isEmpty() && !existencia.isEmpty()){
                 Intent i = new Intent(View_add_inventario.this, View_inventario.class);
                 i.putExtra("codigo", Integer.parseInt(codigo));

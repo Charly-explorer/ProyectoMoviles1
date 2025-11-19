@@ -43,7 +43,6 @@ public class View_inventario extends AppCompatActivity {
         db = new AdminDB(this, "InventarioDB", null, 1);
         SQLiteDatabase bd = db.getWritableDatabase();
 
-        // Inicializar categorías y productos de prueba si no existen
         Cursor c = bd.rawQuery("SELECT COUNT(*) FROM Categorias", null);
         if (c.moveToFirst()) {
             int count = c.getInt(0);
@@ -55,12 +54,10 @@ public class View_inventario extends AppCompatActivity {
         }
         c.close();
 
-        // Asegurar productos base
         bd.execSQL("INSERT OR IGNORE INTO Productos(codigo, nombre, idCategoria, descripcion) VALUES(150, 'Bolsa Maíz', 1, 'Producto inicial')");
         bd.execSQL("INSERT OR IGNORE INTO Productos(codigo, nombre, idCategoria, descripcion) VALUES(160, 'Saco de Frijoles', 1, 'Producto inicial')");
         bd.execSQL("INSERT OR IGNORE INTO Productos(codigo, nombre, idCategoria, descripcion) VALUES(170, 'Caja de Papas', 1, 'Producto inicial')");
 
-        // Inicializar inventario de prueba
         c = bd.rawQuery("SELECT COUNT(*) FROM Inventario", null);
         if (c.moveToFirst()) {
             int count = c.getInt(0);

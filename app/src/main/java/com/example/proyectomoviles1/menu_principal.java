@@ -54,13 +54,13 @@ public class menu_principal extends AppCompatActivity {
                     getString(R.string.menu_movimientos)
             ));
             opciones.add(new OpcionMenu(
-                    R.mipmap.add_user_foreground, // ícono placeholder para crear usuario
+                    R.mipmap.add_user_foreground,
                     getString(R.string.menu_crear_usuarios)
             ));
         }
 
         opciones.add(new OpcionMenu(
-                R.mipmap.salir_foreground, // ícono placeholder para cerrar sesión
+                R.mipmap.salir_foreground,
                 getString(R.string.menu_cerrar_sesion)
         ));
 

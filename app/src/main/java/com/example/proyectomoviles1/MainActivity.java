@@ -48,9 +48,8 @@ public class MainActivity extends AppCompatActivity {
         if (esAdmin == null) {
             Toast.makeText(MainActivity.this, "Correo o contraseña incorrectos", Toast.LENGTH_SHORT).show();
         } else {
-            // AQUÍ: tanto admin como usuario van al menú
             Intent intent = new Intent(MainActivity.this, menu_principal.class);
-            intent.putExtra("esAdmin", esAdmin);   // 1 = admin, 0 = usuario
+            intent.putExtra("esAdmin", esAdmin);
             startActivity(intent);
             finish();
         }
