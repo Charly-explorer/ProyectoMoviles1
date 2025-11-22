@@ -32,7 +32,7 @@ public class CustomAdapterProductos extends BaseAdapter {
 
     @Override
     public long getItemId(int position) {
-        return lista.get(position).code;
+        return lista.get(position).getCode();
     }
 
     @Override
@@ -48,9 +48,9 @@ public class CustomAdapterProductos extends BaseAdapter {
 
         Producto item = lista.get(position);
 
-        txtCode.setText(String.valueOf(item.code));
-        txtNombre.setText(item.nombre);
-        txtDes.setText(item.descripcion);
+        txtCode.setText(String.valueOf(item.getCode()));
+        txtNombre.setText(item.getNombre());
+        txtDes.setText(item.getDescripcion());
 
         return convertView;
     }

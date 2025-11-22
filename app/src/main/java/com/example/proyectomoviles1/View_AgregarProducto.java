@@ -23,13 +23,13 @@ import androidx.core.view.WindowInsetsCompat;
 import java.util.ArrayList;
 
 public class View_AgregarProducto extends AppCompatActivity {
-    ListView listViewProductos;
-    EditText txtCodeInv, txtNameInv, txtBuscador;
+
+    EditText txtCodigo, txtNombre,txtDescripcion; //Tambien recordar la FOTO
     Spinner spCategoria;
     AdminDB db;
     ArrayList<Producto> Gestionlista;
-    CustomAdapterProductos Gestionlistaadapter;
-    Producto productoSeleccionado = null;
+    int codigoProducto = 0;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,70 +41,61 @@ public class View_AgregarProducto extends AppCompatActivity {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
-        this.txtBuscador = (EditText) findViewById(R.id.txtbuscarInvA);
-        this.txtCodeInv = (EditText) findViewById(R.id.txtNombre);
-        this.txtNameInv = (EditText) findViewById(R.id.txtDescripcion);
+
+
+
+        this.txtCodigo = (EditText) findViewById(R.id.txtCodigo);
+        this.txtNombre = (EditText) findViewById(R.id.txtNombre);
+        this.txtDescripcion = (EditText) findViewById(R.id.txtDescripcion);
         this.spCategoria = (Spinner) findViewById(R.id.spCategoria);
+
         db = new AdminDB(this, "InventarioDB", null, 1);
         SQLiteDatabase bd = db.getWritableDatabase();
-
 
         ArrayList<Categoria> categorias = obtenerCategorias();
         ArrayAdapter<Categoria> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, categorias);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spCategoria.setAdapter(adapter);
-        listViewProductos = findViewById(R.id.listViewGestionProductos);
 
         Gestionlista = db.obtenerProductos();
 
-        Gestionlistaadapter = new CustomAdapterProductos(this, Gestionlista);
+        codigoProducto = getIntent().getIntExtra("codigo", -1);
+        if (codigoProducto != 0) {
+            txtCodigo.setEnabled(false);
 
-        listViewProductos.setAdapter(Gestionlistaadapter);
-
-        listViewProductos.setOnItemClickListener((parent, view, position, id) -> {
-            Producto seleccionado = Gestionlista.get(position);
-
-            productoSeleccionado = seleccionado;
-
-            txtCodeInv.setText(String.valueOf(seleccionado.getNombre()));
-            txtNameInv.setText(seleccionado.getDescripcion());
-
-            seleccionarCategoriaEnSpinner(seleccionado.getIdCategoria());
-        });
-
-        this.txtBuscador.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-                String texto = s.toString().toLowerCase();
-                buscarProducto(texto);
-            }
-            @Override public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
-            @Override public void afterTextChanged(Editable s) {}
-        });
+            txtCodigo.setText(String.valueOf(codigoProducto));
+            txtNombre.setText(getIntent().getStringExtra("nombre"));
+            txtDescripcion.setText(getIntent().getStringExtra("descripcion"));
+            seleccionarCategoriaEnSpinner(getIntent().getIntExtra("idCategoria", 0));
+            /// Aqui tambien debo cargar la imagen --------------------------------------------------------------------
+        }
 
     }
+
+    //Esto lo voy hacer con un IF si me llego un boolean true de la pagina anterior que edite el del codigo enviado y si no que cree uno nuevo
+
+    //Nota: Si se envio true que significa que va a editar recordarme desabilitar el EditText del codigo, que este no sea modificable
     public void crearProducto(View view){
         SQLiteDatabase bd = db.getWritableDatabase();
-
         Categoria categoriaSeleccionada = (Categoria) spCategoria.getSelectedItem();
         int idCategoria = categoriaSeleccionada.getId();
 
+        int codigo = Integer.parseInt(txtCodigo.getText().toString());
+        String nombre = txtNombre.getText().toString();
+        String descripcion = txtDescripcion.getText().toString();
 
-        String nombre = txtCodeInv.getText().toString();
-        String descripcion = txtNameInv.getText().toString();
-        if(nombre.isEmpty() || descripcion.isEmpty()){
+        if(codigo == 0 || nombre.isEmpty() || descripcion.isEmpty()){
             Toast.makeText(this, "Ingrese todos los campos", Toast.LENGTH_SHORT).show();
             return;
         }else {
-
-            String sql = "INSERT INTO Productos(nombre, idCategoria, descripcion) VALUES (?, ?, ?)";
+            String sql = "INSERT INTO Productos(codigo, nombre, idCategoria, descripcion) VALUES (?, ?, ?, ?)";
             SQLiteStatement stmt = bd.compileStatement(sql);
-            stmt.bindString(1, nombre);
-            stmt.bindLong(2, idCategoria);
-            stmt.bindString(3, descripcion);
+            stmt.bindLong(1, codigo);
+            stmt.bindString(2, nombre);
+            stmt.bindLong(3, idCategoria);
+            stmt.bindString(4, descripcion);
             stmt.executeInsert();
 
-            Gestionlistaadapter.updateList(db.obtenerProductos());
         }
     }
     public ArrayList<Categoria> obtenerCategorias() {
@@ -126,34 +117,41 @@ public class View_AgregarProducto extends AppCompatActivity {
         return lista;
     }
 
-    public void actualizarProducto(View view){
+    public void Guardar(View view){
 
-        if (productoSeleccionado == null) {
-            Toast.makeText(this, "Seleccione un producto de la lista", Toast.LENGTH_SHORT).show();
-            return;
-        }
-
-        int codigo = productoSeleccionado.getCode();
-        String nombre = txtCodeInv.getText().toString();
-        String descripcion = txtNameInv.getText().toString();
-
+        int codigo = Integer.parseInt(txtCodigo.getText().toString());
+        String nombre = txtNombre.getText().toString();
+        String descripcion = txtDescripcion.getText().toString();
         Categoria categoriaSeleccionada = (Categoria) spCategoria.getSelectedItem();
         int idCategoria = categoriaSeleccionada.getId();
 
-        if(!nombre.isEmpty() && !descripcion.isEmpty()){
+        if (codigoProducto != 0) {
+            Producto prod = db.obtenerProducto(codigoProducto);
+            prod.setNombre(nombre);
+            prod.setDescripcion(descripcion);
+            prod.setIdCategoria(idCategoria);
+            ///  Aqui tambien tengo que mandar la foto ----------------------------------------------------
 
-            db.guardarOActualizarProducto(codigo, nombre, idCategoria, descripcion);
+            if(!nombre.isEmpty() && !descripcion.isEmpty()){
 
-            Gestionlistaadapter.updateList(db.obtenerProductos());
+                //db.guardarOActualizarProducto(codigoProducto, nombre, idCategoria, descripcion);
 
-            Toast.makeText(this, "Producto actualizado", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "Producto actualizado", Toast.LENGTH_SHORT).show();
+            }
+        }else {
+            Toast.makeText(this, "Producto Creado", Toast.LENGTH_SHORT).show();
+            //Producto prod = new Producto(codigo, nombre, descripcion, idCategoria);
+
+            finish();
         }
 
-        txtCodeInv.setText("");
-        txtNameInv.setText("");
-        productoSeleccionado = null;
-    }
 
+        txtCodigo.setText("");
+        txtNombre.setText("");
+        txtDescripcion.setText("");
+        spCategoria.setSelection(0);
+        finish();
+    }
 
     private void seleccionarCategoriaEnSpinner(int idCategoria) {
         for (int i = 0; i < spCategoria.getCount(); i++) {
@@ -163,15 +161,6 @@ public class View_AgregarProducto extends AppCompatActivity {
                 break;
             }
         }
-    }
-    private void buscarProducto(String texto) {
-        ArrayList<Producto> filtrada = new ArrayList<>();
-        for (Producto inv : this.Gestionlista) {
-            if (inv.getNombre().toLowerCase().contains(texto)) {
-                filtrada.add(inv);
-            }
-        }
-        Gestionlistaadapter.updateList(filtrada);
     }
 
     public void Regresar(View view){

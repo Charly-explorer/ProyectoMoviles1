@@ -1,31 +1,24 @@
 package com.example.proyectomoviles1;
 
 public class Producto {
-    public int code;
-    public String nombre;
-    public int idCategoria;
-    public String descripcion;
+    private int code;
+    private String nombre;
+    private int idCategoria;
+    private String descripcion;
+    private byte[] imagen;
 
-    public Producto(String nombre, String descripcion, int idCategoria) {
-        this.code = 0;
-        this.nombre = nombre;
-        this.descripcion = descripcion;
-        this.idCategoria = idCategoria;
-    }
-    public Producto(int code, String nombre, String descripcion, int idCategoria) {
+    public Producto(int code, String nombre, String descripcion, int idCategoria, byte[] imagen) {
         this.code = code;
         this.nombre = nombre;
         this.descripcion = descripcion;
         this.idCategoria = idCategoria;
+        this.imagen = imagen;
     }
 
     public int getCode() {
         return code;
     }
 
-    public void setCode(int code) {
-        this.code = code;
-    }
 
     public String getNombre() {
         return nombre;
@@ -50,4 +43,6 @@ public class Producto {
     public void setIdCategoria(int idcategoria) {
         idCategoria = idcategoria;
     }
+    public byte[] getImagen() { return imagen; }
+    public void setImagen(byte[] imagen) { this.imagen = imagen; }
 }

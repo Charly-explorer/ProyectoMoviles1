@@ -61,6 +61,8 @@ public class View_add_inventario extends AppCompatActivity {
             @Override public void afterTextChanged(Editable s) {}
         });
 
+
+
         this.listViewProductosInv.setOnItemClickListener((AdapterView<?> parent, View view, int position, long id) -> {
             itemseleccionado = position;
             for (int i = 0; i < listViewProductosInv.getChildCount(); i++) {
@@ -74,7 +76,7 @@ public class View_add_inventario extends AppCompatActivity {
     private void filtrarInventario(String texto) {
         ArrayList<Producto> filtrada = new ArrayList<>();
         for (Producto pro : this.lista) {
-            if (pro.nombre.toLowerCase().contains(texto)) {
+            if (pro.getNombre().toLowerCase().contains(texto)) {
                 filtrada.add(pro);
             }
         }
@@ -82,16 +84,15 @@ public class View_add_inventario extends AppCompatActivity {
     }
 
     public void agregar (View view){
-        if (itemseleccionado >= 0)
-        {
+        if (itemseleccionado >= 0){
             Producto pro = (Producto) adapter.getItem(itemseleccionado);
             View itemresaltado = listViewProductosInv.getChildAt(itemseleccionado);
             if (itemresaltado != null) {
                 itemresaltado.setBackgroundColor(0);
             }
-            txtNombrePro.setText(pro.nombre);
-            txtCodigoPro.setText(String.valueOf(pro.code));
-            Inventario inv = db.obtenerProductoInventario(pro.code);
+            txtNombrePro.setText(pro.getNombre());
+            txtCodigoPro.setText(String.valueOf(pro.getCode()));
+            Inventario inv = db.obtenerProductoInventario(pro.getCode());
             if(inv !=null){
                 txtExistenciaInv.setText(String.valueOf(inv.getExistencia()));
             } else {
