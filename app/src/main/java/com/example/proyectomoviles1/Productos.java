@@ -23,7 +23,7 @@ import androidx.core.view.WindowInsetsCompat;
 import java.util.ArrayList;
 
 public class Productos extends AppCompatActivity {
-    ListView listViewProductos;
+    public ListView listViewProductos;
     AdminDB db;
     ArrayList<Producto> lista;
     CustomAdapterProductos adapter;
@@ -58,17 +58,12 @@ public class Productos extends AppCompatActivity {
                 bd.execSQL("INSERT INTO Categorias(nombre) VALUES('Cat 1')");
                 bd.execSQL("INSERT INTO Categorias(nombre) VALUES('Cat 2')");
                 bd.execSQL("INSERT INTO Categorias(nombre) VALUES('Cat 3')");
-                bd.execSQL("INSERT INTO Productos(codigo, nombre, idCategoria, descripcion, imagen) VALUES(123123, 'Producto Prueba', 1, 'Cargado desde Activity', null)");
             }
         }
         c.close();
         listViewProductos = findViewById(R.id.listViewGestionProductos);
 
-        lista = db.obtenerProductos();
-
-        adapter = new CustomAdapterProductos(this, lista);
-
-        listViewProductos.setAdapter(adapter);
+        cargarProductos();
 
         this.listViewProductos.setOnItemClickListener((AdapterView<?> parent, View view, int position, long id) -> {
             seleccionado = position;
@@ -76,7 +71,6 @@ public class Productos extends AppCompatActivity {
                 listViewProductos.getChildAt(i).setBackgroundColor(Color.TRANSPARENT);
             }
             view.setBackgroundColor(Color.LTGRAY);
-            view.findViewById(R.id.textViewCodeInv);
             Editar.setEnabled(true);
             Nuevo.setEnabled(false);
         });
@@ -93,6 +87,23 @@ public class Productos extends AppCompatActivity {
 
 
     }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        cargarProductos(); // vuelve a consultar BD y setear el adapter
+        Editar.setEnabled(false);
+        Nuevo.setEnabled(true);
+    }
+
+    public void cargarProductos() {
+        lista = db.obtenerProductos();
+
+        adapter = new CustomAdapterProductos(this, lista);
+
+        listViewProductos.setAdapter(adapter);
+    }
+
     public void Nuevo(View view) {
         Intent i = new Intent(this, View_AgregarProducto.class);
         startActivity(i);
