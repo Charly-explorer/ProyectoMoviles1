@@ -154,5 +154,4 @@ public class Productos extends AppCompatActivity {
         adapter.updateList(filtrada);
     }
 
-
 }
