@@ -6,13 +6,15 @@ public class Producto {
     private int idCategoria;
     private String descripcion;
     private byte[] imagen;
+    private  byte[] audio;
 
-    public Producto(int code, String nombre, String descripcion, int idCategoria, byte[] imagen) {
+    public Producto(int code, String nombre, String descripcion, int idCategoria, byte[] imagen, byte[] audio) {
         this.code = code;
         this.nombre = nombre;
         this.descripcion = descripcion;
         this.idCategoria = idCategoria;
         this.imagen = imagen;
+        this.audio = audio;
     }
 
     public int getCode() {
@@ -45,4 +47,7 @@ public class Producto {
     }
     public byte[] getImagen() { return imagen; }
     public void setImagen(byte[] imagen) { this.imagen = imagen; }
+    public byte[] getAudio() { return audio;}
+
+    public void setAudio(byte[] audio) { this.audio = audio; }
 }

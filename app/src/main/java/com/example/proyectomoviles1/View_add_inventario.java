@@ -134,5 +134,4 @@ public class View_add_inventario extends AppCompatActivity {
         finish();
     }
 
-
 }

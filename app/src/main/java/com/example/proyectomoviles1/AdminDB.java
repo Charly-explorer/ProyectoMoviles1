@@ -43,6 +43,7 @@ public class AdminDB extends SQLiteOpenHelper {
                 "idCategoria INTEGER NOT NULL, " +
                 "descripcion TEXT, " +
                 "imagen BLOB, " +
+                "audio BLOB, " +
                 "FOREIGN KEY(idCategoria) REFERENCES Categorias(id))");
 
         db.execSQL("CREATE TABLE Inventario (" +
@@ -116,7 +117,7 @@ public class AdminDB extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getReadableDatabase();
 
         Cursor cursor = db.rawQuery(
-                "SELECT P.codigo, P.nombre, P.descripcion, C.nombre, P.Imagen FROM Productos P INNER JOIN Categorias C ON C.id = P.idCategoria",null);
+                "SELECT P.codigo, P.nombre, P.descripcion, C.nombre, P.Imagen, P.audio FROM Productos P INNER JOIN Categorias C ON C.id = P.idCategoria",null);
 
         if (cursor.moveToFirst()) {
             do {
@@ -125,7 +126,8 @@ public class AdminDB extends SQLiteOpenHelper {
                         cursor.getString(1),
                         cursor.getString(2),
                         cursor.getInt(3),
-                        cursor.getBlob(4)
+                        cursor.getBlob(4),
+                        cursor.getBlob(5)
                 ));
             } while (cursor.moveToNext());
         }
@@ -138,7 +140,7 @@ public class AdminDB extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getReadableDatabase();
 
         Cursor cursor = db.rawQuery(
-                "SELECT P.codigo, P.nombre, P.descripcion, C.nombre, P.Imagen FROM Productos P INNER JOIN Categorias C ON C.id = P.idCategoria WHERE P.codigo = ?", new String[]{ String.valueOf(codigoPro) });
+                "SELECT P.codigo, P.nombre, P.descripcion, C.nombre, P.Imagen, P.audio FROM Productos P INNER JOIN Categorias C ON C.id = P.idCategoria WHERE P.codigo = ?", new String[]{ String.valueOf(codigoPro) });
 
         if (cursor.moveToFirst()) {
             producto = new Producto(
@@ -146,7 +148,8 @@ public class AdminDB extends SQLiteOpenHelper {
                     cursor.getString(1),
                     cursor.getString(2),
                     cursor.getInt(3),
-                    cursor.getBlob(4)
+                    cursor.getBlob(4),
+                    cursor.getBlob(5)
 
             );
 
@@ -308,7 +311,7 @@ public class AdminDB extends SQLiteOpenHelper {
             db.insert("MovimientosInventario", null, valuesMov);
         }
     }
-    public void guardarOActualizarProducto(int codigoProducto, String nombre, String descripcion, int idCategoria, byte[] imagen ) {
+    public void guardarOActualizarProducto(int codigoProducto, String nombre, String descripcion, int idCategoria, byte[] imagen, byte[] audio ) {
         SQLiteDatabase db = this.getWritableDatabase();
         Cursor cInv = db.rawQuery(
                 "SELECT codigo FROM Productos WHERE codigo = ?",
@@ -320,6 +323,10 @@ public class AdminDB extends SQLiteOpenHelper {
         valuesInv.put("descripcion", descripcion);
         valuesInv.put("idCategoria", idCategoria);
         valuesInv.put("imagen", imagen);
+        //valuesInv.put("audio", audio);
+        if (audio != null) {
+            valuesInv.put("audio", audio);
+        }
 
 
         if (cInv.moveToFirst()) {

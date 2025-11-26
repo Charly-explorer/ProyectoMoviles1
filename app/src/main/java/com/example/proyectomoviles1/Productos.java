@@ -121,6 +121,7 @@ public class Productos extends AppCompatActivity {
             String descripcion = pro.getDescripcion();
             int idCategoria = pro.getIdCategoria();
             byte[] imagen = pro.getImagen();
+            byte[] audio = pro.getAudio();
 
             producto = db.obtenerProducto(codigo);
 
@@ -131,6 +132,7 @@ public class Productos extends AppCompatActivity {
                 i.putExtra("descripcion", descripcion);
                 i.putExtra("idCategoria", idCategoria);
                 i.putExtra("imagen", imagen);
+                i.putExtra("audio", audio);
                 startActivity(i); //No requiere interaccion con la otra pestaña porque la otra agrega en la BD y esta actividad carga de la BD.
 
             } else {

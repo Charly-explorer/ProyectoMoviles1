@@ -186,6 +186,7 @@
                     android:layout_height="48dp"
                     android:background="@drawable/bg_icon_button"
                     android:contentDescription="Grabar audio"
+                    android:onClick="iniciarGrabacion"
                     app:srcCompat="@android:drawable/ic_btn_speak_now" />
 
                 <ImageButton
@@ -195,6 +196,7 @@
                     android:layout_marginStart="8dp"
                     android:background="@drawable/bg_icon_button"
                     android:contentDescription="Detener grabación"
+                    android:onClick="detenerGrabacion"
                     app:srcCompat="@drawable/ic_action_detener" />
 
                 <ImageButton
@@ -204,7 +206,18 @@
                     android:layout_marginStart="8dp"
                     android:background="@drawable/bg_icon_button"
                     android:contentDescription="Reproducir audio"
+                    android:onClick="iniciarReproduccion"
                     app:srcCompat="@android:drawable/ic_media_play" />
+
+                <ImageButton
+                    android:id="@+id/btnPausa"
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    android:layout_marginStart="8dp"
+                    android:background="@drawable/bg_icon_button"
+                    android:contentDescription="Reproducir audio"
+                    android:onClick="detenerReproduccion"
+                    app:srcCompat="@android:drawable/ic_media_pause" />
             </LinearLayout>
         </LinearLayout>
 
@@ -241,6 +254,7 @@
                 android:layout_marginTop="8dp"
                 android:background="@drawable/bg_icon_button"
                 android:contentDescription="Reemplazar audio"
+                android:onClick="remplazarAudio"
                 app:srcCompat="@drawable/ic_action_renovar" />
         </LinearLayout>
 
