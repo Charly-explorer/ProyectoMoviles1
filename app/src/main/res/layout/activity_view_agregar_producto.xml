@@ -10,283 +10,326 @@
     android:background="#FDFDFD"
     tools:context=".View_AgregarProducto">
 
-    <TextView
-        android:id="@+id/textView2"
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:paddingBottom="12dp"
-        android:text="@string/titulo_Productos"
-        android:textSize="26sp"
-        android:textStyle="bold" />
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:gravity="center_vertical"
-        android:paddingBottom="8dp">
-
-        <TextView
-            android:id="@+id/textViewCode"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:paddingEnd="8dp"
-            android:text="Codigo:"
-            android:textSize="18sp" />
-
-        <EditText
-            android:id="@+id/txtCodigo"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:ems="10"
-            android:hint="Codigo del producto"
-            android:inputType="number" />
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:gravity="center_vertical"
-        android:paddingBottom="8dp">
-
-        <TextView
-            android:id="@+id/textView3"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:paddingEnd="8dp"
-            android:text="@string/label_nombre"
-            android:textSize="18sp" />
-
-        <EditText
-            android:id="@+id/txtNombre"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:ems="10"
-            android:hint="@string/texto_buscar_producto"
-            android:inputType="text" />
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:gravity="center_vertical"
-        android:paddingBottom="8dp">
-
-        <TextView
-            android:id="@+id/textView4"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:paddingEnd="8dp"
-            android:text="@string/Descripcion"
-            android:textSize="18sp" />
-
-        <EditText
-            android:id="@+id/txtDescripcion"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:editable="true"
-            android:ems="10"
-            android:enabled="true"
-            android:hint="@string/texto_descripcion"
-            android:inputType="text" />
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:gravity="center_vertical"
-        android:paddingBottom="12dp">
-
-        <TextView
-            android:id="@+id/textView5"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:paddingEnd="8dp"
-            android:text="@string/Categoria"
-            android:textSize="18sp" />
-
-        <Spinner
-            android:id="@+id/spCategoria"
-            android:layout_width="300dp"
-            android:layout_height="50dp"
-            android:layout_weight="1" />
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:gravity="center_vertical"
-        android:paddingBottom="8dp">
-
-        <TextView
-            android:id="@+id/textViewFoto"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:paddingEnd="8dp"
-            android:text="Tomar foto del producto"
-            android:textSize="18sp" />
-
-        <ImageButton
-            android:id="@+id/imageButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:contentDescription="Tomar foto"
-            android:onClick="tomarFoto"
-            app:srcCompat="@android:drawable/ic_menu_camera" />
-
-    </LinearLayout>
-
-    <ImageView
-        android:id="@+id/imageView3"
-        android:layout_width="match_parent"
-        android:layout_height="198dp"
-        tools:srcCompat="@tools:sample/avatars" />
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="106dp"
-        android:gravity="center_vertical"
-        android:orientation="horizontal"
-        android:paddingBottom="8dp"
-        android:paddingStart="16dp"
-        android:paddingEnd="16dp">
+        android:layout_height="match_parent">
 
         <LinearLayout
-            android:layout_width="0dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="2"
             android:orientation="vertical">
 
             <TextView
-                android:id="@+id/txtView7"
-                android:layout_width="wrap_content"
+                android:id="@+id/textView2"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Audio descriptivo del producto" />
-
+                android:gravity="center"
+                android:paddingBottom="12dp"
+                android:text="@string/titulo_Productos"
+                android:textSize="26sp"
+                android:textStyle="bold" />
             <LinearLayout
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
-                android:layout_marginTop="8dp">
+                android:gravity="center_vertical"
+                android:paddingBottom="8dp">
 
-                <ImageButton
-                    android:id="@+id/btnGrabar"
-                    android:layout_width="48dp"
-                    android:layout_height="48dp"
-                    android:background="@drawable/bg_icon_button"
-                    android:contentDescription="Grabar audio"
-                    android:onClick="iniciarGrabacion"
-                    app:srcCompat="@android:drawable/ic_btn_speak_now" />
+                <TextView
+                    android:id="@+id/textViewCode"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingEnd="8dp"
+                    android:text="Codigo:"
+                    android:textSize="18sp" />
 
-                <ImageButton
-                    android:id="@+id/btnDetener"
-                    android:layout_width="48dp"
-                    android:layout_height="48dp"
-                    android:layout_marginStart="8dp"
-                    android:background="@drawable/bg_icon_button"
-                    android:contentDescription="Detener grabación"
-                    android:onClick="detenerGrabacion"
-                    app:srcCompat="@drawable/ic_action_detener" />
+                <EditText
+                    android:id="@+id/txtCodigo"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:ems="10"
+                    android:hint="Codigo del producto"
+                    android:inputType="number" />
 
-                <ImageButton
-                    android:id="@+id/btnReproducir"
-                    android:layout_width="48dp"
-                    android:layout_height="48dp"
-                    android:layout_marginStart="8dp"
-                    android:background="@drawable/bg_icon_button"
-                    android:contentDescription="Reproducir audio"
-                    android:onClick="iniciarReproduccion"
-                    app:srcCompat="@android:drawable/ic_media_play" />
-
-                <ImageButton
-                    android:id="@+id/btnPausa"
-                    android:layout_width="48dp"
-                    android:layout_height="48dp"
-                    android:layout_marginStart="8dp"
-                    android:background="@drawable/bg_icon_button"
-                    android:contentDescription="Reproducir audio"
-                    android:onClick="detenerReproduccion"
-                    app:srcCompat="@android:drawable/ic_media_pause" />
             </LinearLayout>
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:orientation="vertical"
-            android:gravity="center_horizontal">
 
             <LinearLayout
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:paddingBottom="8dp">
 
                 <TextView
-                    android:id="@+id/textView6"
+                    android:id="@+id/textView3"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Estado:" />
+                    android:paddingEnd="8dp"
+                    android:text="@string/label_nombre"
+                    android:textSize="18sp" />
 
-                <TextView
-                    android:id="@+id/txtEstadoAudio"
+                <EditText
+                    android:id="@+id/txtNombre"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="4dp"
-                    android:text="Sin audio" />
+                    android:layout_weight="1"
+                    android:ems="10"
+                    android:hint="@string/texto_buscar_producto"
+                    android:inputType="text" />
+
             </LinearLayout>
 
-            <ImageButton
-                android:id="@+id/btnRemplazar"
-                android:layout_width="48dp"
-                android:layout_height="48dp"
-                android:layout_marginTop="8dp"
-                android:background="@drawable/bg_icon_button"
-                android:contentDescription="Reemplazar audio"
-                android:onClick="remplazarAudio"
-                app:srcCompat="@drawable/ic_action_renovar" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:paddingBottom="8dp">
+
+                <TextView
+                    android:id="@+id/textView4"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingEnd="8dp"
+                    android:text="@string/Descripcion"
+                    android:textSize="18sp" />
+
+                <EditText
+                    android:id="@+id/txtDescripcion"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:editable="true"
+                    android:ems="10"
+                    android:enabled="true"
+                    android:hint="@string/texto_descripcion"
+                    android:inputType="text" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:paddingBottom="12dp">
+
+                <TextView
+                    android:id="@+id/textView5"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingEnd="8dp"
+                    android:text="@string/Categoria"
+                    android:textSize="18sp" />
+
+                <Spinner
+                    android:id="@+id/spCategoria"
+                    android:layout_width="300dp"
+                    android:layout_height="50dp"
+                    android:layout_weight="1" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:paddingBottom="8dp">
+
+                <TextView
+                    android:id="@+id/textViewFoto"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingEnd="8dp"
+                    android:text="Tomar foto del producto"
+                    android:textSize="18sp" />
+
+                <ImageButton
+                    android:id="@+id/imageButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:contentDescription="Tomar foto"
+                    android:onClick="tomarFoto"
+                    app:srcCompat="@android:drawable/ic_menu_camera" />
+
+            </LinearLayout>
+
+            <ImageView
+                android:id="@+id/imageView3"
+                android:layout_width="match_parent"
+                android:layout_height="198dp"
+                tools:srcCompat="@tools:sample/avatars" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="106dp"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:paddingBottom="8dp"
+                android:paddingStart="16dp"
+                android:paddingEnd="16dp">
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="2"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/txtView7"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Audio descriptivo del producto" />
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:layout_marginTop="8dp">
+
+                        <ImageButton
+                            android:id="@+id/btnGrabar"
+                            android:layout_width="48dp"
+                            android:layout_height="48dp"
+                            android:background="@drawable/bg_icon_button"
+                            android:contentDescription="Grabar audio"
+                            android:onClick="iniciarGrabacion"
+                            app:srcCompat="@android:drawable/ic_btn_speak_now" />
+
+                        <ImageButton
+                            android:id="@+id/btnDetener"
+                            android:layout_width="48dp"
+                            android:layout_height="48dp"
+                            android:layout_marginStart="8dp"
+                            android:background="@drawable/bg_icon_button"
+                            android:contentDescription="Detener grabación"
+                            android:onClick="detenerGrabacion"
+                            app:srcCompat="@drawable/ic_action_detener" />
+
+                        <ImageButton
+                            android:id="@+id/btnReproducir"
+                            android:layout_width="48dp"
+                            android:layout_height="48dp"
+                            android:layout_marginStart="8dp"
+                            android:background="@drawable/bg_icon_button"
+                            android:contentDescription="Reproducir audio"
+                            android:onClick="iniciarReproduccion"
+                            app:srcCompat="@android:drawable/ic_media_play" />
+
+                        <ImageButton
+                            android:id="@+id/btnPausa"
+                            android:layout_width="48dp"
+                            android:layout_height="48dp"
+                            android:layout_marginStart="8dp"
+                            android:background="@drawable/bg_icon_button"
+                            android:contentDescription="Reproducir audio"
+                            android:onClick="detenerReproduccion"
+                            app:srcCompat="@android:drawable/ic_media_pause" />
+                    </LinearLayout>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="vertical"
+                    android:gravity="center_horizontal">
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:id="@+id/textView6"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Estado:" />
+
+                        <TextView
+                            android:id="@+id/txtEstadoAudio"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="4dp"
+                            android:text="Sin audio" />
+                    </LinearLayout>
+
+                    <ImageButton
+                        android:id="@+id/btnRemplazar"
+                        android:layout_width="48dp"
+                        android:layout_height="48dp"
+                        android:layout_marginTop="8dp"
+                        android:background="@drawable/bg_icon_button"
+                        android:contentDescription="Reemplazar audio"
+                        android:onClick="remplazarAudio"
+                        app:srcCompat="@drawable/ic_action_renovar" />
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:paddingBottom="8dp">
+
+                <TextView
+                    android:id="@+id/textViewUbicacion"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingEnd="8dp"
+                    android:text="Ubicación:"
+                    android:textSize="18sp" />
+
+                <Button
+                    android:id="@+id/btnSeleccionarUbicacion"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Seleccionar en mapa"
+                    android:onClick="seleccionarUbicacion" />
+                
+                <TextView
+                    android:id="@+id/txtCoordenadas"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:text="Sin ubicación"
+                    android:textSize="12sp" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center"
+                android:paddingBottom="12dp">
+
+                <Button
+                    android:id="@+id/btnGuardar"
+                    android:layout_width="115dp"
+                    android:layout_height="60dp"
+                    android:onClick="Guardar"
+                    android:text="Guardar"
+                    android:textSize="16sp" />
+
+                <View
+                    android:layout_width="51dp"
+                    android:layout_height="5dp" />
+
+                <Button
+                    android:id="@+id/button6"
+                    android:layout_width="115dp"
+                    android:layout_height="60dp"
+                    android:onClick="Regresar"
+                    android:text="@string/regresar"
+                    android:textSize="16sp" />
+
+            </LinearLayout>
         </LinearLayout>
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:gravity="center"
-        android:paddingBottom="12dp">
-
-        <Button
-            android:id="@+id/btnGuardar"
-            android:layout_width="115dp"
-            android:layout_height="60dp"
-            android:onClick="Guardar"
-            android:text="Guardar"
-            android:textSize="16sp" />
-
-        <View
-            android:layout_width="51dp"
-            android:layout_height="5dp" />
-
-        <Button
-            android:id="@+id/button6"
-            android:layout_width="115dp"
-            android:layout_height="60dp"
-            android:onClick="Regresar"
-            android:text="@string/regresar"
-            android:textSize="16sp" />
-
-    </LinearLayout>
+    </ScrollView>
 
 </LinearLayout>

@@ -122,6 +122,8 @@ public class Productos extends AppCompatActivity {
             int idCategoria = pro.getIdCategoria();
             byte[] imagen = pro.getImagen();
             byte[] audio = pro.getAudio();
+            double latitud = pro.getLatitud();
+            double longitud = pro.getLongitud();
 
             producto = db.obtenerProducto(codigo);
 
@@ -133,7 +135,9 @@ public class Productos extends AppCompatActivity {
                 i.putExtra("idCategoria", idCategoria);
                 i.putExtra("imagen", imagen);
                 i.putExtra("audio", audio);
-                startActivity(i); //No requiere interaccion con la otra pestaña porque la otra agrega en la BD y esta actividad carga de la BD.
+                i.putExtra("latitud", latitud);
+                i.putExtra("longitud", longitud);
+                startActivity(i); 
 
             } else {
                 Toast.makeText(getApplicationContext(), "Error con el producto", Toast.LENGTH_SHORT).show();

@@ -7,13 +7,13 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.drawable.BitmapDrawable;
 import android.media.MediaPlayer;
 import android.media.MediaRecorder;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.view.View;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -25,7 +25,6 @@ import androidx.activity.EdgeToEdge;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
@@ -41,12 +40,13 @@ import java.util.ArrayList;
 public class View_AgregarProducto extends AppCompatActivity {
 
     EditText txtCodigo, txtNombre,txtDescripcion; //Tambien recordar la FOTO
-    TextView txtEstadoAud;
+    TextView txtEstadoAud, txtCoordenadas;
     Spinner spCategoria;
     AdminDB db;
     ArrayList<Producto> Gestionlista;
     int codigoProducto = 0;
     private ActivityResultLauncher<Intent> lanzadorTomarFoto;
+    private ActivityResultLauncher<Intent> lanzadorMapa;
     private Bitmap imagenBitmap;
     private byte[] imagenBytes;
     private ImageView vistaImagen;
@@ -54,6 +54,7 @@ public class View_AgregarProducto extends AppCompatActivity {
     private ActivityResultLauncher<String> lanzadorPermisoAudio;
     private byte[] imagenProducto;
     ImageButton btnGrabar, btnDetener, btnReproducir, btnPausa, btnRemplazar;
+    Button btnSeleccionarUbicacion;
     private static final int REQUEST_PERMISSION_CODE = 1000;
     private SQLiteDatabase database;
     private MediaRecorder mediaRecorder;
@@ -63,6 +64,8 @@ public class View_AgregarProducto extends AppCompatActivity {
     private boolean audioModificado = false;
     File audioFile;
     byte[] audioData;
+    private double latitudSeleccionada = 0.0;
+    private double longitudSeleccionada = 0.0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -112,6 +115,8 @@ public class View_AgregarProducto extends AppCompatActivity {
         this.txtNombre = (EditText) findViewById(R.id.txtNombre);
         this.txtDescripcion = (EditText) findViewById(R.id.txtDescripcion);
         this.spCategoria = (Spinner) findViewById(R.id.spCategoria);
+        this.txtCoordenadas = findViewById(R.id.txtCoordenadas);
+        this.btnSeleccionarUbicacion = findViewById(R.id.btnSeleccionarUbicacion);
 
         btnGrabar = findViewById(R.id.btnGrabar);
         btnDetener = findViewById(R.id.btnDetener);
@@ -143,6 +148,17 @@ public class View_AgregarProducto extends AppCompatActivity {
                     }
                 }
         );
+        
+        lanzadorMapa = registerForActivityResult(
+                new ActivityResultContracts.StartActivityForResult(),
+                resultado -> {
+                    if (resultado.getResultCode() == RESULT_OK && resultado.getData() != null) {
+                        latitudSeleccionada = resultado.getData().getDoubleExtra("latitudSeleccionada", 0.0);
+                        longitudSeleccionada = resultado.getData().getDoubleExtra("longitudSeleccionada", 0.0);
+                        txtCoordenadas.setText("Lat: " + latitudSeleccionada + ", Lon: " + longitudSeleccionada);
+                    }
+                }
+        );
 
         codigoProducto = getIntent().getIntExtra("codigo", -1);
         if (codigoProducto >= 0) {
@@ -154,6 +170,13 @@ public class View_AgregarProducto extends AppCompatActivity {
             seleccionarCategoriaEnSpinner(getIntent().getIntExtra("idCategoria", 0));
             imagenProducto = getIntent().getByteArrayExtra("imagen");
             audioData = getIntent().getByteArrayExtra("audio");
+            
+            latitudSeleccionada = getIntent().getDoubleExtra("latitud", 0.0);
+            longitudSeleccionada = getIntent().getDoubleExtra("longitud", 0.0);
+            if (latitudSeleccionada != 0.0 && longitudSeleccionada != 0.0) {
+                txtCoordenadas.setText("Lat: " + latitudSeleccionada + ", Lon: " + longitudSeleccionada);
+            }
+            
             if (imagenProducto != null) {
                 Bitmap bitmap2 = BitmapFactory.decodeByteArray(imagenProducto, 0, imagenProducto.length);
                 vistaImagen.setImageBitmap(bitmap2);
@@ -177,6 +200,13 @@ public class View_AgregarProducto extends AppCompatActivity {
     public void tomarFoto(View vista) {
         Intent intentTomarFoto = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         lanzadorTomarFoto.launch(intentTomarFoto);
+    }
+    
+    public void seleccionarUbicacion(View view) {
+        Intent intent = new Intent(this, activityMapaProducto.class);
+        intent.putExtra("latitud", latitudSeleccionada);
+        intent.putExtra("longitud", longitudSeleccionada);
+        lanzadorMapa.launch(intent);
     }
 
     public ArrayList<Categoria> obtenerCategorias() {
@@ -218,13 +248,13 @@ public class View_AgregarProducto extends AppCompatActivity {
         if (codigoProducto >= 0) {
 
             if(!nombre.isEmpty() && !descripcion.isEmpty()){
-                db.guardarOActualizarProducto(codigoProducto, nombre, descripcion, idCategoria, imagen2, audioData );
+                db.guardarOActualizarProducto(codigoProducto, nombre, descripcion, idCategoria, imagen2, audioData, latitudSeleccionada, longitudSeleccionada );
 
                 Toast.makeText(this, "Producto actualizado", Toast.LENGTH_SHORT).show();
             }
         }else {
             Toast.makeText(this, "Producto Creado", Toast.LENGTH_SHORT).show();
-            db.guardarOActualizarProducto(codigo, nombre, descripcion, idCategoria, imagen2, audioData);
+            db.guardarOActualizarProducto(codigo, nombre, descripcion, idCategoria, imagen2, audioData, latitudSeleccionada, longitudSeleccionada);
         }
 
         txtCodigo.setText("");

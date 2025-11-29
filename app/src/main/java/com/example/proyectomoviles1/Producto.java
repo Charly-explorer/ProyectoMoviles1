@@ -7,20 +7,23 @@ public class Producto {
     private String descripcion;
     private byte[] imagen;
     private  byte[] audio;
+    private double latitud;
+    private double longitud;
 
-    public Producto(int code, String nombre, String descripcion, int idCategoria, byte[] imagen, byte[] audio) {
+    public Producto(int code, String nombre, String descripcion, int idCategoria, byte[] imagen, byte[] audio, double latitud, double longitud) {
         this.code = code;
         this.nombre = nombre;
         this.descripcion = descripcion;
         this.idCategoria = idCategoria;
         this.imagen = imagen;
         this.audio = audio;
+        this.latitud = latitud;
+        this.longitud = longitud;
     }
 
     public int getCode() {
         return code;
     }
-
 
     public String getNombre() {
         return nombre;
@@ -50,4 +53,10 @@ public class Producto {
     public byte[] getAudio() { return audio;}
 
     public void setAudio(byte[] audio) { this.audio = audio; }
+    
+    public double getLatitud() { return latitud; }
+    public void setLatitud(double latitud) { this.latitud = latitud; }
+    
+    public double getLongitud() { return longitud; }
+    public void setLongitud(double longitud) { this.longitud = longitud; }
 }

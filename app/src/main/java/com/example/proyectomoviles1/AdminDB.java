@@ -17,7 +17,7 @@ import java.util.Locale;
 
 public class AdminDB extends SQLiteOpenHelper {
 
-    private static final int DATABASE_VERSION = 2;
+    private static final int DATABASE_VERSION = 3;
     private Context context;
 
     public AdminDB(@Nullable Context context, @Nullable String name, @Nullable SQLiteDatabase.CursorFactory factory, int version) {
@@ -44,6 +44,8 @@ public class AdminDB extends SQLiteOpenHelper {
                 "descripcion TEXT, " +
                 "imagen BLOB, " +
                 "audio BLOB, " +
+                "latitud REAL, " +
+                "longitud REAL, " +
                 "FOREIGN KEY(idCategoria) REFERENCES Categorias(id))");
 
         db.execSQL("CREATE TABLE Inventario (" +
@@ -117,7 +119,7 @@ public class AdminDB extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getReadableDatabase();
 
         Cursor cursor = db.rawQuery(
-                "SELECT P.codigo, P.nombre, P.descripcion, C.nombre, P.Imagen, P.audio FROM Productos P INNER JOIN Categorias C ON C.id = P.idCategoria",null);
+                "SELECT P.codigo, P.nombre, P.descripcion, C.nombre, P.Imagen, P.audio, P.latitud, P.longitud FROM Productos P INNER JOIN Categorias C ON C.id = P.idCategoria",null);
 
         if (cursor.moveToFirst()) {
             do {
@@ -127,7 +129,9 @@ public class AdminDB extends SQLiteOpenHelper {
                         cursor.getString(2),
                         cursor.getInt(3),
                         cursor.getBlob(4),
-                        cursor.getBlob(5)
+                        cursor.getBlob(5),
+                        cursor.getDouble(6),
+                        cursor.getDouble(7)
                 ));
             } while (cursor.moveToNext());
         }
@@ -140,7 +144,7 @@ public class AdminDB extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getReadableDatabase();
 
         Cursor cursor = db.rawQuery(
-                "SELECT P.codigo, P.nombre, P.descripcion, C.nombre, P.Imagen, P.audio FROM Productos P INNER JOIN Categorias C ON C.id = P.idCategoria WHERE P.codigo = ?", new String[]{ String.valueOf(codigoPro) });
+                "SELECT P.codigo, P.nombre, P.descripcion, C.nombre, P.Imagen, P.audio, P.latitud, P.longitud FROM Productos P INNER JOIN Categorias C ON C.id = P.idCategoria WHERE P.codigo = ?", new String[]{ String.valueOf(codigoPro) });
 
         if (cursor.moveToFirst()) {
             producto = new Producto(
@@ -149,10 +153,10 @@ public class AdminDB extends SQLiteOpenHelper {
                     cursor.getString(2),
                     cursor.getInt(3),
                     cursor.getBlob(4),
-                    cursor.getBlob(5)
-
+                    cursor.getBlob(5),
+                    cursor.getDouble(6),
+                    cursor.getDouble(7)
             );
-
         }
         cursor.close();
         return producto;
@@ -311,7 +315,7 @@ public class AdminDB extends SQLiteOpenHelper {
             db.insert("MovimientosInventario", null, valuesMov);
         }
     }
-    public void guardarOActualizarProducto(int codigoProducto, String nombre, String descripcion, int idCategoria, byte[] imagen, byte[] audio ) {
+    public void guardarOActualizarProducto(int codigoProducto, String nombre, String descripcion, int idCategoria, byte[] imagen, byte[] audio, double latitud, double longitud ) {
         SQLiteDatabase db = this.getWritableDatabase();
         Cursor cInv = db.rawQuery(
                 "SELECT codigo FROM Productos WHERE codigo = ?",
@@ -327,6 +331,8 @@ public class AdminDB extends SQLiteOpenHelper {
         if (audio != null) {
             valuesInv.put("audio", audio);
         }
+        valuesInv.put("latitud", latitud);
+        valuesInv.put("longitud", longitud);
 
 
         if (cInv.moveToFirst()) {
