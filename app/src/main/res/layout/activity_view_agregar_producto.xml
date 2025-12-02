@@ -294,18 +294,15 @@
                 android:orientation="horizontal"
                 android:gravity="center">
 
-                <com.google.android.material.button.MaterialButton
+                <ImageButton
                     android:id="@+id/btnGuardar"
-                    style="@style/Widget.Material3.Button.Icon"
-                    android:layout_width="0dp"
-                    android:layout_height="60dp"
-                    android:layout_marginEnd="16dp"
-                    android:layout_weight="1"
-                    android:backgroundTint="#795548"
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    android:background="@drawable/bg_icon_button"
+                    android:contentDescription="Guardar producto"
                     android:onClick="Guardar"
-                    android:text="Guardar"
-                    android:textColorLink="#795548"
-                    app:cornerRadius="8dp" />
+                    app:srcCompat="@drawable/ic_action_guardar"
+                    app:tint="#795548" />
 
                 <com.google.android.material.button.MaterialButton
                     android:id="@+id/button6"

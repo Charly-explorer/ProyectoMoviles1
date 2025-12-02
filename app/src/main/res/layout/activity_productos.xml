@@ -55,49 +55,35 @@
         android:orientation="horizontal"
         android:layout_marginTop="16dp">
 
-        <com.google.android.material.button.MaterialButton
+        <ImageButton
             android:id="@+id/btnNuevo"
-            style="@style/Widget.Material3.Button"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="8dp"
-            android:layout_weight="1"
-            android:backgroundTint="#795548"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:background="@drawable/bg_icon_button"
+            android:contentDescription="Agregar producto"
             android:onClick="Nuevo"
-            android:text="Nuevo"
-            android:textColorLink="#795548"
-            android:textSize="10sp"
-            app:cornerRadius="8dp" />
+            app:srcCompat="@drawable/ic_action_add"
+            app:tint="#795548" />
 
-        <com.google.android.material.button.MaterialButton
+        <ImageButton
             android:id="@+id/btnEditar"
-            style="@style/Widget.Material3.Button"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="8dp"
-            android:layout_weight="1"
-            android:backgroundTint="#795548"
-            android:enabled="false"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:background="@drawable/bg_icon_button"
+            android:contentDescription="Editar producto"
             android:onClick="Editar"
-            android:text="Editar"
-            android:textColorLink="#795548"
-            android:textSize="10sp"
-            app:cornerRadius="8dp" />
+            app:srcCompat="@drawable/ic_action_edit"
+            app:tint="#795548" />
 
-        <com.google.android.material.button.MaterialButton
+        <ImageButton
             android:id="@+id/btnEliminar"
-            style="@style/Widget.Material3.Button"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="8dp"
-            android:layout_weight="1"
-            android:backgroundTint="#795548"
-            android:enabled="false"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:background="@drawable/bg_icon_button"
+            android:contentDescription="Eliminar producto"
             android:onClick="Eliminar"
-            android:text="Eliminar"
-            android:textColorLink="#795548"
-            android:textSize="10sp"
-            app:cornerRadius="8dp" />
+            app:srcCompat="@drawable/ic_action_delete"
+            app:tint="#795548" />
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/button4"

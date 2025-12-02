@@ -11,6 +11,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -28,7 +29,7 @@ public class Productos extends AppCompatActivity {
     ArrayList<Producto> lista;
     CustomAdapterProductos adapter;
     EditText txtBuscador;
-    Button Nuevo, Editar, Eliminar;
+    ImageButton Nuevo, Editar, Eliminar;
     Producto producto = null;
     int seleccionado = -1;
     @Override
@@ -41,9 +42,9 @@ public class Productos extends AppCompatActivity {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
-        this.Nuevo = (Button) findViewById(R.id.btnNuevo);
-        this.Editar = (Button) findViewById(R.id.btnEditar);
-        this.Eliminar = (Button) findViewById(R.id.btnEliminar);
+        this.Nuevo = (ImageButton) findViewById(R.id.btnNuevo);
+        this.Editar = (ImageButton) findViewById(R.id.btnEditar);
+        this.Eliminar = (ImageButton) findViewById(R.id.btnEliminar);
 
         listViewProductos = findViewById(R.id.listViewGestionProductos);
 
