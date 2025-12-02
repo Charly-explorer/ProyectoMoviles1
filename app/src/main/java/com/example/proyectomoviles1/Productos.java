@@ -28,7 +28,7 @@ public class Productos extends AppCompatActivity {
     ArrayList<Producto> lista;
     CustomAdapterProductos adapter;
     EditText txtBuscador;
-    Button Nuevo, Editar;
+    Button Nuevo, Editar, Eliminar;
     Producto producto = null;
     int seleccionado = -1;
     @Override
@@ -43,6 +43,7 @@ public class Productos extends AppCompatActivity {
         });
         this.Nuevo = (Button) findViewById(R.id.btnNuevo);
         this.Editar = (Button) findViewById(R.id.btnEditar);
+        this.Eliminar = (Button) findViewById(R.id.btnEliminar);
 
         listViewProductos = findViewById(R.id.listViewGestionProductos);
 
@@ -73,6 +74,7 @@ public class Productos extends AppCompatActivity {
             view.setBackgroundColor(Color.LTGRAY);
             Editar.setEnabled(true);
             Nuevo.setEnabled(false);
+            Eliminar.setEnabled(true);
         });
 
         this.txtBuscador.addTextChangedListener(new TextWatcher() {
@@ -137,6 +139,7 @@ public class Productos extends AppCompatActivity {
                 i.putExtra("audio", audio);
                 i.putExtra("latitud", latitud);
                 i.putExtra("longitud", longitud);
+                Eliminar.setEnabled(false);
                 startActivity(i); 
 
             } else {
@@ -158,6 +161,27 @@ public class Productos extends AppCompatActivity {
             }
         }
         adapter.updateList(filtrada);
+    }
+
+    public  void Eliminar(View view){
+        if (seleccionado >= 0) {
+            Producto pro = (Producto) adapter.getItem(seleccionado);
+            View itemresaltado = listViewProductos.getChildAt(seleccionado);
+            if (itemresaltado != null) {
+                itemresaltado.setBackgroundColor(0);
+            }
+            int codigo = pro.getCode();
+            if(db.eliminarProductoPorCodigo(codigo)){
+                Toast.makeText(getApplicationContext(), "Producto eliminado correctamente", Toast.LENGTH_SHORT).show();
+            }
+        }else{
+            Toast.makeText(getApplicationContext(), "Debe seleccionar un producto para eliminar", Toast.LENGTH_SHORT).show();
+        }
+        seleccionado = -1;
+        Eliminar.setEnabled(false);
+        Editar.setEnabled(false);
+        Nuevo.setEnabled(true);
+        cargarProductos();
     }
 
 }

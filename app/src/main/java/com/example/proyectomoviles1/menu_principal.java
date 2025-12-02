@@ -43,7 +43,7 @@ public class menu_principal extends AppCompatActivity {
                 getString(R.string.menu_productos)
         ));
 
-        opciones.add(new OpcionMenu(
+        /*opciones.add(new OpcionMenu(
                 R.mipmap.inventario_foreground,
                 getString(R.string.menu_inventario)
         ));
@@ -62,7 +62,7 @@ public class menu_principal extends AppCompatActivity {
         opciones.add(new OpcionMenu(
                 R.mipmap.salir_foreground,
                 getString(R.string.menu_cerrar_sesion)
-        ));
+        ));*/
 
         adapter = new CustomAdapterMenu(this, opciones);
         listViewMenu.setAdapter(adapter);

@@ -66,6 +66,7 @@
             android:onClick="Nuevo"
             android:text="Nuevo"
             android:textColorLink="#795548"
+            android:textSize="10sp"
             app:cornerRadius="8dp" />
 
         <com.google.android.material.button.MaterialButton
@@ -80,6 +81,22 @@
             android:onClick="Editar"
             android:text="Editar"
             android:textColorLink="#795548"
+            android:textSize="10sp"
+            app:cornerRadius="8dp" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnEliminar"
+            style="@style/Widget.Material3.Button"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
+            android:layout_weight="1"
+            android:backgroundTint="#795548"
+            android:enabled="false"
+            android:onClick="Eliminar"
+            android:text="Eliminar"
+            android:textColorLink="#795548"
+            android:textSize="10sp"
             app:cornerRadius="8dp" />
 
         <com.google.android.material.button.MaterialButton
@@ -89,9 +106,10 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:onClick="Regresar"
-            android:text="@string/regresar"
+            android:text="Regresar"
             android:textColor="#795548"
             android:textColorLink="#795548"
+            android:textSize="10sp"
             app:cornerRadius="8dp"
             app:strokeColor="#795548" /> </LinearLayout>
 

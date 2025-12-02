@@ -389,4 +389,16 @@ public class AdminDB extends SQLiteOpenHelper {
         cursor.close();
         return lista;
     }
+
+    public boolean eliminarProductoPorCodigo(int codigoProducto) {
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        int filasEliminadas = db.delete(
+                "Productos",
+                "codigo = ?",
+                new String[]{ String.valueOf(codigoProducto) }
+        );
+
+        return filasEliminadas > 0;
+    }
 }
