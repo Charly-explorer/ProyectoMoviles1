@@ -109,14 +109,16 @@
                 android:gravity="center_vertical"
                 android:layout_marginBottom="16dp">
 
-                <ImageView
+                <com.google.android.material.imageview.ShapeableImageView
                     android:id="@+id/imageView3"
                     android:layout_width="0dp"
                     android:layout_height="198dp"
                     android:layout_weight="1"
                     android:scaleType="centerCrop"
                     android:layout_marginEnd="16dp"
-                    android:background="#D7CCC8" tools:srcCompat="@tools:sample/avatars" />
+                    android:background="#D7CCC8"
+                    app:shapeAppearanceOverlay="@style/ShapeAppearance.Material3.Corner.Medium"
+                    tools:srcCompat="@tools:sample/avatars" />
 
                 <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
                     android:id="@+id/imageButton"
@@ -171,7 +173,7 @@
                                 android:contentDescription="Grabar audio"
                                 android:onClick="iniciarGrabacion"
                                 app:srcCompat="@android:drawable/ic_btn_speak_now"
-                                app:tint="#795548" />
+                                app:tint="#128000" />
 
                             <ImageButton
                                 android:id="@+id/btnDetener"
@@ -294,21 +296,27 @@
                 android:orientation="horizontal"
                 android:gravity="center">
 
-                <ImageButton
+                <com.google.android.material.button.MaterialButton
                     android:id="@+id/btnGuardar"
-                    android:layout_width="48dp"
-                    android:layout_height="48dp"
-                    android:background="@drawable/bg_icon_button"
-                    android:contentDescription="Guardar producto"
+                    android:layout_width="100dp"
+                    android:layout_height="wrap_content"
                     android:onClick="Guardar"
-                    app:srcCompat="@drawable/ic_action_guardar"
-                    app:tint="#795548" />
+                    android:layout_margin="3dp"
+                    android:contentDescription="Guardar producto"
+                    style="@style/Widget.Material3.Button.Icon"
+                    app:icon="@drawable/ic_action_guardar"
+                    app:iconTint="@android:color/white"
+                    android:backgroundTint="#795548"
+                    app:rippleColor="#D7CCC8"
+                    app:cornerRadius="8dp"
+                    app:elevation="4dp"
+                    android:padding="12dp" />
 
                 <com.google.android.material.button.MaterialButton
                     android:id="@+id/button6"
                     style="@style/Widget.Material3.Button.OutlinedButton"
                     android:layout_width="0dp"
-                    android:layout_height="60dp"
+                    android:layout_height="50dp"
                     android:layout_weight="1"
                     android:onClick="Regresar"
                     android:text="@string/regresar"

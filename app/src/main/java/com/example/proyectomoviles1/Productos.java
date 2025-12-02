@@ -11,7 +11,6 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -21,6 +20,8 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+
 import java.util.ArrayList;
 
 public class Productos extends AppCompatActivity {
@@ -29,7 +30,8 @@ public class Productos extends AppCompatActivity {
     ArrayList<Producto> lista;
     CustomAdapterProductos adapter;
     EditText txtBuscador;
-    ImageButton Nuevo, Editar, Eliminar;
+    FloatingActionButton Nuevo;
+    Button Editar, Eliminar;
     Producto producto = null;
     int seleccionado = -1;
     @Override
@@ -42,13 +44,13 @@ public class Productos extends AppCompatActivity {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
-        this.Nuevo = (ImageButton) findViewById(R.id.btnNuevo);
-        this.Editar = (ImageButton) findViewById(R.id.btnEditar);
-        this.Eliminar = (ImageButton) findViewById(R.id.btnEliminar);
+        this.Nuevo = findViewById(R.id.btnNuevo);
+        this.Editar = findViewById(R.id.btnEditar);
+        this.Eliminar = findViewById(R.id.btnEliminar);
 
         listViewProductos = findViewById(R.id.listViewGestionProductos);
 
-        this.txtBuscador = (EditText) findViewById(R.id.txtnombre);
+        this.txtBuscador = findViewById(R.id.txtnombre);
         db = new AdminDB(this, "InventarioDB", null, 1);
         SQLiteDatabase bd = db.getWritableDatabase();
 
@@ -60,8 +62,7 @@ public class Productos extends AppCompatActivity {
                 bd.execSQL("INSERT INTO Categorias(nombre) VALUES('Cat 1')");
                 bd.execSQL("INSERT INTO Categorias(nombre) VALUES('Cat 2')");
                 bd.execSQL("INSERT INTO Categorias(nombre) VALUES('Cat 3')");
-            }
-        }
+            }        }
         c.close();
         listViewProductos = findViewById(R.id.listViewGestionProductos);
 
@@ -114,7 +115,7 @@ public class Productos extends AppCompatActivity {
     public void Editar(View view) {
 
         if (seleccionado >= 0) {
-            Producto pro = (Producto) adapter.getItem(seleccionado);
+            Producto pro = adapter.getItem(seleccionado);
             View itemresaltado = listViewProductos.getChildAt(seleccionado);
             if (itemresaltado != null) {
                 itemresaltado.setBackgroundColor(0);
@@ -166,7 +167,7 @@ public class Productos extends AppCompatActivity {
 
     public  void Eliminar(View view){
         if (seleccionado >= 0) {
-            Producto pro = (Producto) adapter.getItem(seleccionado);
+            Producto pro = adapter.getItem(seleccionado);
             View itemresaltado = listViewProductos.getChildAt(seleccionado);
             if (itemresaltado != null) {
                 itemresaltado.setBackgroundColor(0);

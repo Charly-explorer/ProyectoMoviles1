@@ -53,37 +53,50 @@
         android:layout_height="wrap_content"
         android:gravity="center"
         android:orientation="horizontal"
-        android:layout_marginTop="16dp">
+        android:layout_marginTop="16dp"
+        android:padding="2dp">
 
-        <ImageButton
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/btnNuevo"
-            android:layout_width="48dp"
-            android:layout_height="48dp"
-            android:background="@drawable/bg_icon_button"
-            android:contentDescription="Agregar producto"
+            android:layout_width="45dp"
+            android:layout_height="45dp"
             android:onClick="Nuevo"
+            android:layout_margin="3dp"
+            android:contentDescription="Agregar producto"
             app:srcCompat="@drawable/ic_action_add"
-            app:tint="#795548" />
+            app:tint="@color/white"
+            android:backgroundTint="#795548"
+            app:rippleColor="#D7CCC8" />
 
-        <ImageButton
+        <com.google.android.material.button.MaterialButton
             android:id="@+id/btnEditar"
-            android:layout_width="48dp"
-            android:layout_height="48dp"
-            android:background="@drawable/bg_icon_button"
-            android:contentDescription="Editar producto"
+            android:layout_width="45dp"
+            android:layout_height="wrap_content"
             android:onClick="Editar"
-            app:srcCompat="@drawable/ic_action_edit"
-            app:tint="#795548" />
+            android:layout_margin="3dp"
+            android:contentDescription="Editar producto"
+            style="@style/Widget.Material3.Button.Icon"
+            app:icon="@drawable/ic_action_edit"
+            app:iconTint="@android:color/white"
+            android:backgroundTint="#795548"
+            app:rippleColor="#D7CCC8"
+            app:cornerRadius="8dp"
+            app:elevation="4dp"
+            android:padding="12dp" />
 
-        <ImageButton
+        <com.google.android.material.button.MaterialButton
             android:id="@+id/btnEliminar"
-            android:layout_width="48dp"
-            android:layout_height="48dp"
-            android:background="@drawable/bg_icon_button"
-            android:contentDescription="Eliminar producto"
+            android:layout_width="45dp"
+            android:layout_height="wrap_content"
             android:onClick="Eliminar"
-            app:srcCompat="@drawable/ic_action_delete"
-            app:tint="#795548" />
+            android:layout_margin="3dp"
+            android:contentDescription="Eliminar producto"
+            style="@style/Widget.Material3.Button.Icon"
+            app:icon="@drawable/ic_action_delete"
+            app:iconTint="@android:color/white"
+            android:backgroundTint="#B00020" app:rippleColor="#EF9A9A" app:cornerRadius="8dp"
+            app:elevation="4dp"
+            android:padding="12dp" />
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/button4"
